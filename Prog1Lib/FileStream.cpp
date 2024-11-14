@@ -39,18 +39,59 @@ string Tools::FileStream::Read(const streamsize& _length, const streampos& _posi
 	return _content;
 }
 
-string Tools::FileStream::ReadLine(const streampos& _position)
+string Tools::FileStream::ReadLine(const u_int _lineIndex)
 {
 	if (!IsValid()) return "";
 
+	streampos _position = GetOffset(0, _lineIndex);
 	string _content = "";
 
-	if (_position != -1)
-	{
-		stream.seekg(_position);
-	}
+	stream.seekg(GetOffset(0, _lineIndex));
 	getline(stream, _content);
 	return _content;
+}
+
+bool Tools::FileStream::RemoveLine(const u_int _lineIndex)
+{
+	if (!IsValid()) return false;
+
+	string _remainingContent;
+	streampos _position = GetOffset(0, _lineIndex);
+	streampos _positionEnd = GetOffset(0, _lineIndex+1);
+	stream.seekp(_position);
+	getline(stream, _remainingContent, '\0');
+
+	stream.clear();
+	stream.seekg(_position + (_positionEnd-_position));
+
+	if (!_remainingContent.empty())
+	{
+		stream.write(_remainingContent.c_str(), _remainingContent.size());
+	}
+	return stream.good();
+}
+
+bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _position)
+{
+	if (!IsValid()) return false;
+
+	string _remainingContent;
+
+	stream.seekg(_length);
+	if (_position != -1)
+	{
+		stream.seekp(_position);
+		getline(stream, _remainingContent, '\0');
+
+		stream.clear();
+		stream.seekg(_position+ _length);
+	}
+
+	if (!_remainingContent.empty())
+	{
+		stream.write(_remainingContent.c_str(), _remainingContent.size());
+	}
+	return stream.good();
 }
 
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)

@@ -52,7 +52,11 @@ namespace Tools
 
 		string Read(const streamsize& _length, const streampos& _position = -1);
 
-		string ReadLine(const streampos& _position = -1);
+		string ReadLine(const u_int _lineIndex = 0);
+
+		bool RemoveLine(const u_int _lineIndex = 0);
+
+		bool Remove(const streamsize& _length, const streampos& _position = -1);
 
 		bool Write(const string& _content, const streampos& _position=-1);
 
