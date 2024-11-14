@@ -20,6 +20,12 @@ namespace Tools
 		ios_base::openmode openMode;
 
 	public:
+		string GetFullPath()const
+		{
+			return fullPath;
+		}
+
+	public:
 
 		FileStream() = default;
 
@@ -33,6 +39,13 @@ namespace Tools
 		}
 
 	public:
+
+		// operator == 
+		bool operator==(const FileStream& _file)const
+		{
+			return fullPath == _file.fullPath;
+		}
+
 
 		// Afficher un nombre n de lignes à partir d'un index
 		string* ReadAll();

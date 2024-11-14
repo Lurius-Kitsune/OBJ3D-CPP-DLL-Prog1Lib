@@ -48,6 +48,9 @@
     <ClInclude Include="DisplaySystem.h">
       <Filter>Header Files\File\Consol</Filter>
     </ClInclude>
+    <ClInclude Include="Tab.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
