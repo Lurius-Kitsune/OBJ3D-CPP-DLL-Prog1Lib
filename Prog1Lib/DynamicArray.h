@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)
 #else
@@ -6,7 +7,7 @@
 #endif
 
 typedef unsigned int u_int;
-
+using namespace std; 
 namespace Tools
 {
 	template<class T>
@@ -104,7 +105,7 @@ namespace Tools
 			if (_index < 0) _index = size - 1;
 			if (!IsValidIndex(_index)) return false;
 
-			T** _tempTab = new T * [size - 1];
+			T* _tempTab = new T[size - 1];
 			bool _isRemoved = false;
 			for (u_int _i = 0; _i < size; _i++)
 			{

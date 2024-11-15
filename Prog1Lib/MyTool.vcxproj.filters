@@ -51,6 +51,9 @@
     <ClInclude Include="DynamicArray.h">
       <Filter>Header Files\File</Filter>
     </ClInclude>
+    <ClInclude Include="CharManip.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files\File</Filter>
     </ClCompile>
     <ClCompile Include="DisplaySystem.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="CharManip.cpp">
       <Filter>Source Files\File</Filter>
     </ClCompile>
   </ItemGroup>
