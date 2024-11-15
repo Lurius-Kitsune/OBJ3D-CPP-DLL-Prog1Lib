@@ -75,6 +75,8 @@ namespace Tools
 
 		bool Remove(const streamsize& _length, const streampos& _position = -1);
 
+		bool Clear();
+
 		bool Write(const string& _content, const streampos& _position=-1);
 
 		streampos GetOffset(const u_int& _horizontal, const u_int& _vertical);

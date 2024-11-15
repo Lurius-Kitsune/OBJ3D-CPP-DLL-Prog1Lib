@@ -37,11 +37,11 @@ int main()
     FileStream _file = FileStream("Thomas.txt", true);
 	_file.Write("\nBob1");
    /* Console::DisplayRainbowCenterMultiLine(_file.ReadAll(), _file.ComputeLineOfFile());*/
-    DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);
+    DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true); 
+	//_file.Crypt();
+	//DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);
 
-	_file.Crypt();
-	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);/*
-	_file.Uncrypt();
+	/*_file.Uncrypt();
 	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);*/
 
 	/*Bob* _bob = new Bob("Bob");
