@@ -16,7 +16,7 @@ typedef unsigned int u_int;
 
 namespace Tools
 {
-    static int RandomInt(const u_int& _max, const u_int& _min)
+    static int RandomInt(const int _min, const int _max)
     {
         random_device _rSeed;
         mt19937 _gen(_rSeed());
@@ -25,8 +25,15 @@ namespace Tools
         return distr(_gen);
     }
 
+    /// <summary>
+    /// Renvoie une valeur random selon un type
+    /// </summary>
+    /// <typeparam name="Type"> Disponible avec les double, floats et longs double</typeparam>
+    /// <param name="_min">Minimum</param>
+    /// <param name="_max">Maximum</param>
+    /// <returns>Valeur random</returns>
     template<typename Type>
-    Type RandomInt(const Type& _max, const Type& _min)
+    Type RandomValue(const Type& _min, const Type& _max)
     {
         random_device _rSeed;
         mt19937 _gen(_rSeed());
@@ -38,7 +45,7 @@ namespace Tools
     template<typename Type>
     Type GetRandomObjectInArray(Type* _array, const u_int& _arraySize)
     {
-        int _randomIndex = RandomInt(_arraySize, 0);
+        int _randomIndex = RandomInt(0, _arraySize - 1);
         return _array[_randomIndex];
     }
 }
