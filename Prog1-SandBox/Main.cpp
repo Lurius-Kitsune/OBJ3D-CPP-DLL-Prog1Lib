@@ -1,7 +1,7 @@
 #include <iostream>
 #include "FileStream.h"
 #include "DisplaySystem.h"
-#include "Tab.h"
+#include "DynamicArray.h"
 
 using namespace Tools;
 

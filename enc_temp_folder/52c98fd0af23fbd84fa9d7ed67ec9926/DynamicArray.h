@@ -55,7 +55,7 @@ namespace Tools
 		virtual bool Add(const T& _object, int _index = -1)
 		{
 			if (_index < 0) _index = size;
-			if (!IsValidIndex(_index) && _index != size) return false;- _isPut
+			if (!IsValidIndex(_index) && _index != size) return false;
 
 			T* _tempTab = new T[size + 1];
 			bool _isPut = false;
@@ -67,7 +67,7 @@ namespace Tools
 					_isPut = true;
 					continue;
 				}
-				_tempTab[_i] = tab[_i - _isPut];
+				_tempTab[_i + _isPut] = tab[_i];
 			}
 
 			delete[] tab;
@@ -192,7 +192,7 @@ namespace Tools
 					_isPut = true;
 					continue;
 				}
-				_tempTab[_i] = tab[_i - _isPut];
+				_tempTab[_i + _isPut] = tab[_i];
 			}
 
 			delete[] tab;
