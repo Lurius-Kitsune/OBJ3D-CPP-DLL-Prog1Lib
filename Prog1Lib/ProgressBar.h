@@ -8,6 +8,9 @@
 #define MYTOOL_API __declspec(dllimport)
 #endif
 
+
+#pragma warning(disable : 4251)
+
 using namespace std;
 
 #define CALBARD Sleep
