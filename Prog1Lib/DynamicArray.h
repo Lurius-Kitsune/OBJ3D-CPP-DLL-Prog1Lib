@@ -1,5 +1,5 @@
 #pragma once
-
+#include <iostream>
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)
 #else
@@ -44,18 +44,20 @@ namespace Tools
 
 		virtual T operator[](const int _index)
 		{
+			if (!IsValidIndex(_index)) throw std::exception("Index out of range");
 			return tab[_index];
 		}
 
 		virtual const T& operator[](const int _index)const
 		{
+			if (!IsValidIndex(_index)) throw std::exception("Index out of range");
 			return tab[_index];
 		}
 
 		virtual bool Add(const T& _object, int _index = -1)
 		{
 			if (_index < 0) _index = size;
-			if (!IsValidIndex(_index) && _index != size) return false;- _isPut
+			if (!IsValidIndex(_index) && _index != size) return false;
 
 			T* _tempTab = new T[size + 1];
 			bool _isPut = false;
@@ -169,11 +171,13 @@ namespace Tools
 
 		virtual T* operator[](const int _index)
 		{
+			if (!IsValidIndex(_index)) throw std::exception("[ERROR]index out of range");
 			return tab[_index];
 		}
 
 		virtual const T* operator[](const int _index)const
 		{
+			if (!IsValidIndex(_index)) throw std::exception("[ERROR]index out of range");
 			return tab[_index];
 		}
 
