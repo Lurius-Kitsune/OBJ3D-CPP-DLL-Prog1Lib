@@ -147,6 +147,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="SaveManager.h" />

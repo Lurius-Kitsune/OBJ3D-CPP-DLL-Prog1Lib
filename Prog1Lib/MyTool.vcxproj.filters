@@ -54,6 +54,9 @@
     <ClInclude Include="SaveManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProgressBar.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="SaveManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBar.cpp">
+      <Filter>Source Files\File</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
