@@ -54,6 +54,12 @@ namespace Tools
 			return tab[_index];
 		}
 
+		/// <summary>
+		/// Ajoute un objet <Type> dans le tableau à l'index donner
+		/// </summary>
+		/// <param name="_object">L'objet à ajouter</param>
+		/// <param name="_index">L'index concerner</param>
+		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Add(const T& _object, int _index = -1)
 		{
 			if (_index < 0) _index = size;
@@ -78,12 +84,22 @@ namespace Tools
 			return true;
 		}
 
+		/// <summary>
+		/// Retire le premier objet de <Type> trouver dans le tableau
+		/// </summary>
+		/// <param name="_object">L'objet à retirer</param>
+		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Remove(const T& _object)
 		{
 			if (!IsIn(_object)) return false;
 			return Remove(FindIndexOfObject(_object));
 		}
 
+		/// <summary>
+		/// Retire un objet de <Type> dans le tableau à l'index donner
+		/// </summary>
+		/// <param name="_object">L'index concerner</param>
+		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Remove(int _index = -1)
 		{
 			if (_index < 0) _index = size - 1;
@@ -107,6 +123,11 @@ namespace Tools
 			return true;
 		}
 
+		/// <summary>
+		/// Indique si l'objet de <type> est présent dans le tableau
+		/// </summary>
+		/// <param name="_object">L'objet à trouver</param>
+		/// <returns>Vrai si trouver</returns>
 		virtual bool IsIn(const T& _object)const
 		{
 			for (u_int _i = 0; _i < size; _i++)
@@ -117,6 +138,11 @@ namespace Tools
 			return false;
 		}
 
+		/// <summary>
+		/// Trouve l'index du premier objet trouver dans le tableau
+		/// </summary>
+		/// <param name="_object">L'objet à rechercher</param>
+		/// <returns>L'index trouver, sinon EXCEPTION</returns>
 		virtual u_int FindIndexOfObject(const T& _object)const
 		{
 			for (u_int _i = 0; _i < size; _i++)
@@ -181,6 +207,12 @@ namespace Tools
 			return tab[_index];
 		}
 
+		/// <summary>
+		/// Ajoute un objet pointeur de <Type> dans le tableau à l'index donner
+		/// </summary>
+		/// <param name="_object">L'objet pointeur à ajouter</param>
+		/// <param name="_index">L'index concerner</param>
+		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Add(T* _object, int _index = -1)
 		{
 			if (_index < 0) _index = size;
@@ -205,12 +237,23 @@ namespace Tools
 			return true;
 		}
 
+		/// <summary>
+		/// Retire le premier objet pointeur de <Type> trouver dans le tableau
+		/// </summary>
+		/// <param name="_object">L'objet pointeur à retirer</param>
+		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Remove(T* _object, const bool _needToBeDelete = false)
 		{
 			if (!IsIn(_object)) return false;
 			return Remove(FindIndexOfObject(_object), _needToBeDelete);
 		}
 
+
+		/// <summary>
+		/// Retire un objet pointeur de <Type> dans le tableau à l'index donner
+		/// </summary>
+		/// <param name="_object">L'index concerner</param>
+		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Remove(int _index = -1, const bool _needToBeDelete = false)
 		{
 			if (_index < 0) _index = size-1;
@@ -238,6 +281,11 @@ namespace Tools
 			return true;
 		}
 
+		/// <summary>
+		/// Indique si l'objet pointeur de <type> est présent dans le tableau
+		/// </summary>
+		/// <param name="_object">L'objet pointeur à trouver</param>
+		/// <returns>Vrai si trouver</returns>
 		virtual bool IsIn(const T* _object)const
 		{
 			for (u_int _i = 0; _i < size; _i++)
@@ -248,6 +296,11 @@ namespace Tools
 			return false;
 		}
 
+		/// <summary>
+		/// Trouve l'index du premier objet pointeur trouver dans le tableau
+		/// </summary>
+		/// <param name="_object">L'objet pointeur à rechercher</param>
+		/// <returns>L'index trouver, sinon EXCEPTION</returns>
 		virtual u_int FindIndexOfObject(T* _object)const
 		{
 			for (u_int _i = 0; _i < size; _i++)
