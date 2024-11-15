@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CharManip.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DisplaySystem.h" />
     <ClInclude Include="FileStream.h" />
@@ -147,9 +148,11 @@
     <ClInclude Include="Macro.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="UserInteract.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CharManip.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DisplaySystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
