@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)
 #else
@@ -55,9 +54,9 @@ namespace Tools
 		}
 
 		/// <summary>
-		/// Ajoute un objet <Type> dans le tableau à l'index donner
+		/// Ajoute un objet <Type> dans le tableau Ã  l'index donner
 		/// </summary>
-		/// <param name="_object">L'objet à ajouter</param>
+		/// <param name="_object">L'objet Ã  ajouter</param>
 		/// <param name="_index">L'index concerner</param>
 		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Add(const T& _object, int _index = -1)
@@ -87,7 +86,7 @@ namespace Tools
 		/// <summary>
 		/// Retire le premier objet de <Type> trouver dans le tableau
 		/// </summary>
-		/// <param name="_object">L'objet à retirer</param>
+		/// <param name="_object">L'objet Ã  retirer</param>
 		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Remove(const T& _object)
 		{
@@ -96,7 +95,7 @@ namespace Tools
 		}
 
 		/// <summary>
-		/// Retire un objet de <Type> dans le tableau à l'index donner
+		/// Retire un objet de <Type> dans le tableau Ã  l'index donner
 		/// </summary>
 		/// <param name="_object">L'index concerner</param>
 		/// <returns>Vrai si l'operation c'est faite</returns>
@@ -124,9 +123,9 @@ namespace Tools
 		}
 
 		/// <summary>
-		/// Indique si l'objet de <type> est présent dans le tableau
+		/// Indique si l'objet de <type> est prÃ©sent dans le tableau
 		/// </summary>
-		/// <param name="_object">L'objet à trouver</param>
+		/// <param name="_object">L'objet Ã  trouver</param>
 		/// <returns>Vrai si trouver</returns>
 		virtual bool IsIn(const T& _object)const
 		{
@@ -141,7 +140,7 @@ namespace Tools
 		/// <summary>
 		/// Trouve l'index du premier objet trouver dans le tableau
 		/// </summary>
-		/// <param name="_object">L'objet à rechercher</param>
+		/// <param name="_object">L'objet Ã  rechercher</param>
 		/// <returns>L'index trouver, sinon EXCEPTION</returns>
 		virtual u_int FindIndexOfObject(const T& _object)const
 		{
@@ -208,9 +207,9 @@ namespace Tools
 		}
 
 		/// <summary>
-		/// Ajoute un objet pointeur de <Type> dans le tableau à l'index donner
+		/// Ajoute un objet pointeur de <Type> dans le tableau Ã  l'index donner
 		/// </summary>
-		/// <param name="_object">L'objet pointeur à ajouter</param>
+		/// <param name="_object">L'objet pointeur Ã  ajouter</param>
 		/// <param name="_index">L'index concerner</param>
 		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Add(T* _object, int _index = -1)
@@ -240,7 +239,7 @@ namespace Tools
 		/// <summary>
 		/// Retire le premier objet pointeur de <Type> trouver dans le tableau
 		/// </summary>
-		/// <param name="_object">L'objet pointeur à retirer</param>
+		/// <param name="_object">L'objet pointeur Ã  retirer</param>
 		/// <returns>Vrai si l'operation c'est faite</returns>
 		virtual bool Remove(T* _object, const bool _needToBeDelete = false)
 		{
@@ -250,7 +249,7 @@ namespace Tools
 
 
 		/// <summary>
-		/// Retire un objet pointeur de <Type> dans le tableau à l'index donner
+		/// Retire un objet pointeur de <Type> dans le tableau Ã  l'index donner
 		/// </summary>
 		/// <param name="_object">L'index concerner</param>
 		/// <returns>Vrai si l'operation c'est faite</returns>
@@ -282,9 +281,9 @@ namespace Tools
 		}
 
 		/// <summary>
-		/// Indique si l'objet pointeur de <type> est présent dans le tableau
+		/// Indique si l'objet pointeur de <type> est prÃ©sent dans le tableau
 		/// </summary>
-		/// <param name="_object">L'objet pointeur à trouver</param>
+		/// <param name="_object">L'objet pointeur Ã  trouver</param>
 		/// <returns>Vrai si trouver</returns>
 		virtual bool IsIn(const T* _object)const
 		{
@@ -299,7 +298,7 @@ namespace Tools
 		/// <summary>
 		/// Trouve l'index du premier objet pointeur trouver dans le tableau
 		/// </summary>
-		/// <param name="_object">L'objet pointeur à rechercher</param>
+		/// <param name="_object">L'objet pointeur Ã  rechercher</param>
 		/// <returns>L'index trouver, sinon EXCEPTION</returns>
 		virtual u_int FindIndexOfObject(T* _object)const
 		{
