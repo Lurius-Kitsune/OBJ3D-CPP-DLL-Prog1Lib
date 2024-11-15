@@ -1,7 +1,7 @@
 #include <iostream>
 #include "FileStream.h"
 #include "DisplaySystem.h"
-#include "Tab.h"
+#include "DynamicArray.h"
 
 using namespace Tools;
 
@@ -34,18 +34,8 @@ public:
 int main()
 {
     Config();
-    FileStream _file = FileStream("bob.txt", true);
-    //_file.Write("\nBob1", _file.ComputeLenghOfFile());
+    FileStream _file = FileStream("Thomas.txt", true);
+    _file.Write("\nBob1", 0);
     //Console::DisplayRainbowCenterMultiLine(_file.ReadAll(), _file.ComputeLineOfFile());
-    //DISPLAY(_file.ReadAll(), true);
-
-	Bob* _bob = new Bob("Bob");
-	DynamicArray<Bob*> _tab = DynamicArray<Bob*>();
-	_tab.Add(_bob);
-	_tab.Add(new Bob(*_bob));
-    DISPLAY(_tab[0]->GetName(), true);
-    DISPLAY(_tab[1]->GetName(), true);
-    _tab.Remove(_bob, true);
-    DISPLAY(_tab[0]->GetName(), true);
-    //DISPLAY(_tab[1]->GetName(), true);
+    DISPLAY(_file.ReadAll(), true);
 }

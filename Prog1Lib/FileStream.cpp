@@ -160,14 +160,19 @@ bool Tools::FileStream::Write(const char* _content, const streamsize& _lengh, co
 
 int Tools::FileStream::ComputeLineOfFile()
 {
-	int _line = 0;
-	char _c;
-	while(stream.get(_c))
-	{
-		if (_c == '\n') _line++;
-	}
-	stream.clear();
-
 	stream.seekg(0, stream.beg);
-	return _line - 1;
+	char _c;
+	u_int _nbLine = 1;
+	while (stream.get(_c))
+	{
+		if (_c == '\n')
+		{
+			_nbLine++;
+		}
+	}
+
+	stream.clear();
+	stream.seekg(0, stream.beg);
+
+	return _nbLine;
 }
