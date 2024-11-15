@@ -22,7 +22,7 @@ public:
 	}
 
 public:
-
+	
 	void ProgressBarDisplay();
 
 	void UnProgressBarDisplay();

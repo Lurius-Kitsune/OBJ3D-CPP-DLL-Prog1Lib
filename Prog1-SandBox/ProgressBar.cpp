@@ -1,5 +1,10 @@
 ﻿#include "ProgressBar.h"
 
+/// <summary>
+/// Affiche une barre de progression
+/// allant du rouge < 25%
+/// au vert > 75%
+/// </summary>
 void ProgressBar::ProgressBarDisplay()
 {
 	pBarPourcent = pBarPourcent != 2 ? 2 : pBarPourcent;
@@ -18,7 +23,9 @@ void ProgressBar::ProgressBarDisplay()
 	}
 	system("cls");
 }
-
+/// <summary>
+/// L'inverse de la barre progression
+/// </summary>
 void ProgressBar::UnProgressBarDisplay()
 {
 	pBarPourcent = pBarPourcent != 2 ? 2 : pBarPourcent;
@@ -37,6 +44,9 @@ void ProgressBar::UnProgressBarDisplay()
 	system("cls");
 }
 
+/// <summary>
+/// Affiche un bar
+/// </summary>
 void ProgressBar::BarDisplay()
 {
 	const string _tabBar[] =
@@ -68,7 +78,11 @@ void ProgressBar::BarDisplay()
 }
 
 
-
+/// <summary>
+/// Nom explicite mais blague pas
+/// aussi poussée. Affiche juste
+/// NUH UH
+/// </summary>
 void ProgressBar::NiBarDisplay()
 {
 	const string _tabBar[] =

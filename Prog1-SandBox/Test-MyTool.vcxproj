@@ -141,7 +141,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ProgressBar.cpp" />
   </ItemGroup>
+<<<<<<< Updated upstream
+=======
+  <ItemGroup>
+    <ClInclude Include="ProgressBar.h" />
+    <ClInclude Include="tab2.h" />
+  </ItemGroup>
+>>>>>>> Stashed changes
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
