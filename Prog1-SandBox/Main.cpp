@@ -2,10 +2,12 @@
 #include "FileStream.h"
 #include "DisplaySystem.h"
 #include "DynamicArray.h"
+#include "CharManip.h"
 
 using namespace Tools;
 
 void TestDynamicArray();
+void TestCharManip();
 
 class Bob
 {
@@ -42,6 +44,7 @@ int main()
     //DISPLAY(_file.ReadAll(), true);
 
 	TestDynamicArray();
+	TestCharManip();
 }
 
 void TestDynamicArray()
@@ -65,4 +68,14 @@ void TestDynamicArray()
 		DISPLAY(_excep.what(), true);
 	}
 	
+}
+
+void TestCharManip()
+{
+	string _phrase = "Je suis bob";
+	DynamicArray<string> _splitPhrase = SplitString(_phrase, char(32));
+	string _lowerPhrase = ToLowerString(_phrase);
+	string _lowerUpper = ToUpperString(_phrase);
+
+	DISPLAY(_splitPhrase[0], true);
 }
