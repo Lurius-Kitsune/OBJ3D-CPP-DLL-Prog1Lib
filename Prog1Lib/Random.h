@@ -24,4 +24,21 @@ namespace Tools
 
         return distr(_gen);
     }
+
+    template<typename Type>
+    Type RandomInt(const Type& _max, const Type& _min)
+    {
+        random_device _rSeed;
+        mt19937 _gen(_rSeed());
+        uniform_real_distribution<Type> distr(_min, _max);
+
+        return distr(_gen);
+    }
+
+    template<typename Type>
+    Type GetRandomObjectInArray(Type* _array, const u_int& _arraySize)
+    {
+        int _randomIndex = RandomInt(_arraySize, 0);
+        return _array[_randomIndex];
+    }
 }
