@@ -48,7 +48,7 @@
     <ClInclude Include="DisplaySystem.h">
       <Filter>Header Files\File\Consol</Filter>
     </ClInclude>
-    <ClInclude Include="Tab.h">
+    <ClInclude Include="DynamicArray.h">
       <Filter>Header Files\File</Filter>
     </ClInclude>
   </ItemGroup>

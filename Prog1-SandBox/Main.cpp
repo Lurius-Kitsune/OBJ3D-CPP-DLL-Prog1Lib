@@ -40,7 +40,7 @@ int main()
     //DISPLAY(_file.ReadAll(), true);
 
 	Bob* _bob = new Bob("Bob");
-	Tab<Bob*> _tab = Tab<Bob*>();
+	DynamicArray<Bob*> _tab = DynamicArray<Bob*>();
 	_tab.Add(_bob);
 	_tab.Add(new Bob(*_bob));
     DISPLAY(_tab[0]->GetName(), true);

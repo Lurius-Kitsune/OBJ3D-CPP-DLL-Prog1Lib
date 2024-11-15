@@ -147,7 +147,7 @@
     <ClInclude Include="Macro.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Random.h" />
-    <ClInclude Include="Tab.h" />
+    <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="UserInteract.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 template<class T>
-class Tab
+class DynamicArray
 {
 	T* tab;
 	u_int size;
@@ -14,25 +14,25 @@ public:
 
 public:
 
-	Tab()
+	DynamicArray()
 	{
 		size = 0;
 		tab = new T[size];
 	}
 
-	Tab(const int _size)
+	DynamicArray(const int _size)
 	{
 		size = _size;
 		tab = new T[size];
 	}
 
-	Tab(const T* _tab, const int _size)
+	DynamicArray(const T* _tab, const int _size)
 	{
 		size = _size;
 		tab = _tab;
 	}
 
-	virtual ~Tab()
+	virtual ~DynamicArray()
 	{
 		delete[] tab;
 	}

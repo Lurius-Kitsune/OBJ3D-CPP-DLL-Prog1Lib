@@ -11,7 +11,7 @@ typedef unsigned int u_int;
 namespace Tools
 {
 	template<class T>
-	class Tab
+	class DynamicArray
 	{
 		T* tab;
 		u_int size;
@@ -25,19 +25,19 @@ namespace Tools
 
 	public:
 
-		Tab()
+		DynamicArray()
 		{
 			size = 0;
 			tab = new T[size];
 		}
 
-		Tab(const T* _tab, const int _size)
+		DynamicArray(const T* _tab, const int _size)
 		{
 			size = _size;
 			tab = _tab;
 		}
 
-		virtual ~Tab()
+		virtual ~DynamicArray()
 		{
 			delete[] tab;
 		}
@@ -132,7 +132,7 @@ namespace Tools
 	};
 
 	template<class T>
-	class Tab<T*>
+	class DynamicArray<T*>
 	{
 		T** tab;
 		u_int size;
@@ -146,19 +146,19 @@ namespace Tools
 
 	public:
 
-		Tab()
+		DynamicArray()
 		{
 			size = 0;
 			tab = new T*[size];
 		}
 
-		Tab(const T** _tab, const int _size)
+		DynamicArray(const T** _tab, const int _size)
 		{
 			size = _size;
 			tab = _tab;
 		}
 
-		virtual ~Tab()
+		virtual ~DynamicArray()
 		{
 			for (u_int _i = 0; _i < size; _i++)
 			{
