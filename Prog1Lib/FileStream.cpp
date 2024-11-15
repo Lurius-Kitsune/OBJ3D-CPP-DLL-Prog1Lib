@@ -146,16 +146,16 @@ bool Tools::FileStream::Crypt()
 {
 	if (!IsValid() || isCrypt) return false;
 	string _modifiedText;
-	ofstream _writeStream = ofstream(fullPath, ios::out);
 	const string& _baseText = Read(ComputeLenghOfFile());
-		const u_int& _baseTextSize = static_cast<u_int>(_baseText.size());
+	const u_int& _baseTextSize = static_cast<u_int>(_baseText.size());
 	int _modifiedInt;
 	for (u_int _index = 0; _index < _baseTextSize; _index++)
 	{
 		_modifiedInt = int(_baseText[_index] + cryptageKey[_index % cryptageKeySize]);
 		_modifiedText += char(_modifiedInt);
 	}
-	_writeStream << _modifiedText;
+	Remove(ComputeLenghOfFile(), 0);
+	Write(_modifiedText,0);
 	return true;
 }
 
@@ -163,7 +163,6 @@ bool Tools::FileStream::Uncrypt()
 {
 	if (!IsValid() || !isCrypt) return false;
 	string _modifiedText;
-	ofstream _writeStream = ofstream(fullPath, ios::out);
 	const string& _baseText = Read(ComputeLenghOfFile());
 	const u_int& _baseTextSize = static_cast<u_int>(_baseText.size());
 	int _modifiedInt;
@@ -172,7 +171,8 @@ bool Tools::FileStream::Uncrypt()
 		_modifiedInt = int(_baseText[_index] - cryptageKey[_index % cryptageKeySize]);
 		_modifiedText += char(_modifiedInt);
 	}
-	_writeStream << _modifiedText;
+	Remove(ComputeLenghOfFile(),0);
+	Write(_modifiedText, 0);
 	return false;
 }
 
@@ -203,7 +203,7 @@ int Tools::FileStream::ComputeLineOfFile()
 {
 	int _line = 0;
 	char _c;
-	while(stream.get(_c))
+	while (stream.get(_c))
 	{
 		if (_c == '\n') _line++;
 	}
