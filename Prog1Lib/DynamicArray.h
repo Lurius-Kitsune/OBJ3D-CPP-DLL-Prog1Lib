@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)
 #else
@@ -6,7 +7,7 @@
 #endif
 
 typedef unsigned int u_int;
-
+using namespace std; 
 namespace Tools
 {
 	template<class T>
