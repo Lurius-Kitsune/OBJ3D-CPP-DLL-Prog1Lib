@@ -36,6 +36,7 @@ int main()
     Config();
     FileStream _file = FileStream("Thomas.txt", true);
 	_file.Write("\nBob1");
+	_file.Remove(_file.ComputeLenghOfFile(), 0);
    /* Console::DisplayRainbowCenterMultiLine(_file.ReadAll(), _file.ComputeLineOfFile());*/
     DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);
 

@@ -80,21 +80,14 @@ bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _posi
 	if (!IsValid()) return false;
 
 	string _remainingContent;
+	stream.seekp(_position + _length);
+	getline(stream, _remainingContent, '\0');
 
-	stream.seekg(_length);
-	if (_position != -1)
-	{
-		stream.seekp(_position);
-		getline(stream, _remainingContent, '\0');
-
-		stream.clear();
-		stream.seekg(_position+ _length);
-	}
-
-	if (!_remainingContent.empty())
-	{
-		stream.write(_remainingContent.c_str(), _remainingContent.size());
-	}
+	stream.clear();
+	stream.seekg(0,stream.beg);
+	string _content = Read(_position, 0) + _remainingContent + "bob";
+	stream << _content;
+	stream.flush();
 	return stream.good();
 }
 

@@ -55,6 +55,7 @@ namespace Tools
 			SetIsCryptFile();
 			SetCryptageKey(_newKey);
 		}
+
 	public:
 
 		// operator == 
@@ -73,7 +74,7 @@ namespace Tools
 
 		bool RemoveLine(const u_int _lineIndex = 0);
 
-		bool Remove(const streamsize& _length, const streampos& _position = -1);
+		bool Remove(const streamsize& _length, const streampos& _position);
 
 		bool Write(const string& _content, const streampos& _position=-1);
 
