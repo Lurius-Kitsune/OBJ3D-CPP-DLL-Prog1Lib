@@ -156,6 +156,7 @@ bool Tools::FileStream::Crypt()
 	}
 	Remove(ComputeLenghOfFile(), 0);
 	Write(_modifiedText,0);
+	isCrypt = true;
 	return true;
 }
 
@@ -173,6 +174,7 @@ bool Tools::FileStream::Uncrypt()
 	}
 	Remove(ComputeLenghOfFile(),0);
 	Write(_modifiedText, 0);
+	isCrypt = false;
 	return false;
 }
 

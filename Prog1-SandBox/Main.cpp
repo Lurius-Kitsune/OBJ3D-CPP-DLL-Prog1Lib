@@ -40,9 +40,9 @@ int main()
     DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);
 
 	_file.Crypt();
-	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);
+	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);/*
 	_file.Uncrypt();
-	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);
+	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);*/
 
 	/*Bob* _bob = new Bob("Bob");
 	DynamicArray<Bob*> _tab = DynamicArray<Bob*>();
