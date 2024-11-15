@@ -1,11 +1,7 @@
-﻿#include "ProgressBar.h"
+﻿#include "pch.h"
+#include "ProgressBar.h"
 
-/// <summary>
-/// Affiche une barre de progression
-/// allant du rouge < 25%
-/// au vert > 75%
-/// </summary>
-void ProgressBar::ProgressBarDisplay()
+void Tools::ProgressBar::ProgressBarDisplay()
 {
 	pBarPourcent = pBarPourcent != 2 ? 2 : pBarPourcent;
 	while (pBarPourcent != 100)
@@ -23,10 +19,8 @@ void ProgressBar::ProgressBarDisplay()
 	}
 	system("cls");
 }
-/// <summary>
-/// L'inverse de la barre progression
-/// </summary>
-void ProgressBar::UnProgressBarDisplay()
+
+void Tools::ProgressBar::UnProgressBarDisplay()
 {
 	pBarPourcent = pBarPourcent != 2 ? 2 : pBarPourcent;
 	while (pBarPourcent != 100)
@@ -44,10 +38,7 @@ void ProgressBar::UnProgressBarDisplay()
 	system("cls");
 }
 
-/// <summary>
-/// Affiche un bar
-/// </summary>
-void ProgressBar::BarDisplay()
+void Tools::ProgressBar::BarDisplay()
 {
 	const string _tabBar[] =
 	{ "      .======================================.",
@@ -83,7 +74,7 @@ void ProgressBar::BarDisplay()
 /// aussi poussée. Affiche juste
 /// NUH UH
 /// </summary>
-void ProgressBar::NiBarDisplay()
+void Tools::ProgressBar::NiBarDisplay()
 {
 	const string _tabBar[] =
 	{
