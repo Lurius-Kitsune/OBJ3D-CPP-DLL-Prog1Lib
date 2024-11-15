@@ -102,28 +102,31 @@ bool Tools::FileStream::Write(const string& _content, const streampos& _position
 
 streampos Tools::FileStream::GetOffset(const u_int& _horizontal, const u_int& _vertical)
 {
-	u_int _index = 0, _l = 0;
-	char _c;
 	stream.seekg(0, stream.beg);
-	while (_l != _vertical ) // Aller à la bonne ligne
+	char _c;
+	u_int _nbLine = 0, _nbChar = 0, _cursor = 0;
+	while (_nbLine < _vertical)
 	{
 		if (stream.get(_c))
 		{
-			const int _bob = stream.tellg();
-			if (_c == '\n') _l++;
-			_index++;
-		}
-		else
-		{
-			break;
+			if (_c == '\n')
+			{
+				_nbLine++;
+				_nbChar = 0;
+			}
+			else
+			{
+				_nbChar++;
+			}
+
+			_cursor++;
 		}
 	}
-	stream.seekg(_index);
-	const streampos& _pos = stream.tellg();
 
 	stream.clear();
 	stream.seekg(0, stream.beg);
-	return _pos;
+
+	return _cursor;
 }
 
 streampos Tools::FileStream::ComputeLenghOfFile()
