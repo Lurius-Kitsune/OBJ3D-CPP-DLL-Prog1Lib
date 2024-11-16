@@ -39,8 +39,10 @@ public:
 int main()
 {
     Config();
-    //FileStream _file = FileStream("Thomas.txt", true);
-	//_file.Write("\nBob1");
+    FileStream _file = FileStream("Thomas.txt", true);
+	_file.Write("\nBob1");
+
+	
    /* Console::DisplayRainbowCenterMultiLine(_file.ReadAll(), _file.ComputeLineOfFile());*/
     //DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true); 
 	//_file.Crypt();
@@ -50,9 +52,9 @@ int main()
 	/*_file.Uncrypt();
 	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);*/
 
-	TestDynamicArray();
+	/*TestDynamicArray();
 	TestCharManip();
-	TestOptimiseRandom();
+	TestOptimiseRandom();*/
 }
 
 void TestDynamicArray()
