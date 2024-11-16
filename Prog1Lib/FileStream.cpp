@@ -90,6 +90,16 @@ bool Tools::FileStream::Clear()
 }
 
 
+bool Tools::FileStream::Clear()
+{
+	// Todo 
+	/*ofstream _clearStream = ofstream(fullPath, ios::out);
+	if (!IsValid()) return false;
+	_clearStream << "";*/
+	return true;
+}
+
+
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
 	if (isCrypt)

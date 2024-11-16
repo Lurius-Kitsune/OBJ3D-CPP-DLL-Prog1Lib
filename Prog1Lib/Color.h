@@ -64,6 +64,16 @@ namespace Tools
 		#define PURPLE "\x1B[38;5;99m"
 		#define BROWN "\x1B[38;5;130m"
 
+		//Base Colors
+		#define BLACK_BASE "\u001b[30m"
+		#define RED_BASE "\u001b[31m"
+		#define GREEN_BASE "\u001b[32m"
+		#define YELLOW_BASE "\u001b[33m"
+		#define BLUE_BASE "\u001b[34m"
+		#define PURPLE_BASE "\u001b[35m"
+		#define CYAN_BASE "\u001b[36m"
+		#define WHITE_BASE "\u001b[37m"
+
 		// Background colors
 		#define BG_BLACK "\x1B[48;5;232m"
 		#define BG_DARK_GRAY "\x1B[48;5;237m"
