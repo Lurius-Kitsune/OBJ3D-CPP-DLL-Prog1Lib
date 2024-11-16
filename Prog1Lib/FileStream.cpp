@@ -91,6 +91,16 @@ bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _posi
 	return stream.good();
 }
 
+bool Tools::FileStream::Clear()
+{
+	// Todo 
+	/*ofstream _clearStream = ofstream(fullPath, ios::out);
+	if (!IsValid()) return false;
+	_clearStream << "";*/
+	return true;
+}
+
+
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
 	if (isCrypt) return Uncrypt() && 
@@ -147,8 +157,9 @@ bool Tools::FileStream::Crypt()
 		_modifiedInt = int(_baseText[_index] + cryptageKey[_index % cryptageKeySize]);
 		_modifiedText += char(_modifiedInt);
 	}
-	Remove(ComputeLenghOfFile(), 0);
-	Write(_modifiedText,0);
+	Clear();
+	Write(_modifiedText);
+	isCrypt = true;
 	return true;
 }
 
@@ -164,8 +175,9 @@ bool Tools::FileStream::Uncrypt()
 		_modifiedInt = int(_baseText[_index] - cryptageKey[_index % cryptageKeySize]);
 		_modifiedText += char(_modifiedInt);
 	}
-	Remove(ComputeLenghOfFile(),0);
-	Write(_modifiedText, 0);
+	Clear();
+	Write(_modifiedText);
+	isCrypt = false;
 	return false;
 }
 
