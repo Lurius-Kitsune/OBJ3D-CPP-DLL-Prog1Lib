@@ -49,7 +49,10 @@ MYTOOL_API bool Tools::UserInteraction::GetBool(const string& _answersPossible)
 	return _answer;
 }
 
-MYTOOL_API void Tools::UserInteraction::DisplayMenu(const string* _options, const int _currentIndex, const u_int& _maxOptions, const string& _question)
+MYTOOL_API void Tools::UserInteraction::DisplayMenu(const string* _options, 
+	const u_int& _currentIndex, const u_int& _maxOptions, 
+	const string& _question, 
+	string* _selectors, const string& _selectorColors)
 {
 	DISPLAY(_question, _question.empty() ? false : true);
 	DISPLAY("==========ACTION==========", true);
@@ -58,47 +61,47 @@ MYTOOL_API void Tools::UserInteraction::DisplayMenu(const string* _options, cons
 		string _firstSymbol = "", _secondSymbol = "" RESET;
 		if (_i == _currentIndex)
 		{
-			_firstSymbol = PURPLE "[";
-			_secondSymbol = PURPLE "]" RESET;
+			_firstSymbol = _selectorColors + _selectors[0];
+			_secondSymbol = _selectorColors + _selectors[1] + RESET ;
 		}
 		DISPLAY(_firstSymbol + (_i == _maxOptions ? "Quitter" : _options[_i]) + _secondSymbol, true);
 	}
 	DISPLAY("==========================", true);
 }
 
-MYTOOL_API int Tools::UserInteraction::OpenMenu(const string* _options, const u_int& _maxOptions, const string& _question)
+MYTOOL_API u_int Tools::UserInteraction::OpenMenu(const string* _options, 
+	const u_int& _maxOptions, string* _selectors, 
+	const string& _selectorColors, const string& _question)
 {
-	u_int _currentIndex = 0;
-	DisplayMenu(_options, _currentIndex, _maxOptions, _question);
-	do
+	u_int _currentIndex = 0, _input = 0;
+	while (true)
 	{
-		
-		if (_kbhit())
+		DisplayMenu(_options, _currentIndex, _maxOptions, _question, _selectors, _selectorColors);
+		// Getch attend une entree utilisateur une touche
+		_input = _getch();
+		CLEAR_SCREEN;
+		// Si la touche est entrée, alors _isChoiceMade = true
+		switch (_input)
 		{
-			// Attendre une touche
-			u_int _input = 0;
-			_input = _getch();
-
-			// Si la touche est entrée, alors _isChoiceMade = true
-			switch (_input)
-			{
-			case 13:
-				return _currentIndex;
-				// Si la touche est fleche du haut, alors _choiceIndex--
-			case 72:
-				_currentIndex = (_currentIndex <= 0 ? _maxOptions : _currentIndex-1);
-				break;
-				// Si la touche est fleche du bas, alors _choiceIndex++
-			case 80:
-				_currentIndex = (_currentIndex >= _maxOptions ? 0 : _currentIndex + 1);
-				break;
-			default:
-				break;
-			}
-			CLEAR_SCREEN;
-			DisplayMenu(_options, _currentIndex, _maxOptions, _question);
+		case 13:
+			return _currentIndex;
+			// Si la touche est fleche du haut, alors _choiceIndex--
+		case 72:
+			_currentIndex = (_currentIndex <= 0 ? _maxOptions : _currentIndex - 1);
+			break;
+			// Si la touche est fleche du bas, alors _choiceIndex++
+		case 80:
+			_currentIndex = (_currentIndex >= _maxOptions ? 0 : _currentIndex + 1);
+			break;
+		default:
+			break;
 		}
-		
-	} while (true);
+	}
+}
+
+MYTOOL_API u_int Tools::UserInteraction::OpenMenu(const string* _options, const u_int& _maxOptions, const string& _question)
+{
+	string _selectorSymbols[2] = { "[","]" };
+	return OpenMenu(_options, _maxOptions, _selectorSymbols, "", _question);
 }
 
