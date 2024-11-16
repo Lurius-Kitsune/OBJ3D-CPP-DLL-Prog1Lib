@@ -4,6 +4,14 @@
 Save::SaveManager::SaveManager(const string& _path)
 {
 	path = _path;
+	encryptionKey = nullptr;
+	if (!GetReadStream()) FileCreate();
+}
+
+Save::SaveManager::SaveManager(const string& _path, const string& _encryptionKey)
+{
+	path = _path;
+	*encryptionKey = _encryptionKey;
 	if (!GetReadStream()) FileCreate();
 }
 
@@ -40,6 +48,20 @@ int Save::SaveManager::GetKeyIndex(const string& _key) const
 	{
 		if (SplitString(_line, ":")[0] == _key) return _index;
 		_index += _line.size() + 1;
+	}
+	return -1;
+}
+
+int Save::SaveManager::GetKeyLine(const string& _key) const
+{
+	ifstream _read = GetReadStream();
+	unsigned int _lineIndex = 0;
+
+	string _line;
+	while (getline(_read, _line))
+	{
+		if (SplitString(_line, ":")[0] == _key) return _lineIndex;
+		_lineIndex++;
 	}
 	return -1;
 }
