@@ -43,7 +43,7 @@ string Tools::FileStream::Read(const streamsize& _length, const streampos& _posi
 	return _content;
 }
 
-string Tools::FileStream::ReadLine(const u_int _lineIndex)
+string Tools::FileStream::ReadLine(const u_int& _lineIndex)
 {
 	if (!IsValid()) return "";
 
@@ -55,9 +55,9 @@ string Tools::FileStream::ReadLine(const u_int _lineIndex)
 	return _content;
 }
 
-bool Tools::FileStream::RemoveLine(const u_int _lineIndex)
+bool Tools::FileStream::RemoveLine(const u_int& _lineIndex)
 {
-	const streampos& _cursorMax = _lineIndex + 1 > ComputeLineOfFile() ? ComputeLenghOfFile() : GetOffset(0, _lineIndex + 1);
+	const streampos& _cursorMax = _lineIndex + 1 > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex + 1);
 	return Remove(GetOffset(0, _lineIndex), _cursorMax);
 }
 
@@ -83,15 +83,17 @@ bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _posi
 
 bool Tools::FileStream::Clear()
 {
+	if (ComputeLenghOfFile() == 0) return false;
 	return Remove(ComputeLenghOfFile(), 0);;
 }
 
 
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
-	if (isCrypt) return Uncrypt() && 
-			Write(_content.c_str(), _content.size(), _position)
-			&& Crypt();
+	if (isCrypt) 
+		return Uncrypt() && 
+		Write(_content.c_str(), _content.size(), _position) 
+		&& Crypt();
 	return Write(_content.c_str(), _content.size(), _position);
 }
 
@@ -126,7 +128,7 @@ streampos Tools::FileStream::ComputeLenghOfFile()
 {
 	
 	stream.seekp(0, stream.end);
-	const streampos _lengh = stream.tellg();
+	const streampos& _lengh = stream.tellg();
 	stream.seekp(0);
 	return _lengh;
 }
@@ -144,7 +146,7 @@ bool Tools::FileStream::Crypt()
 		_modifiedText += char(_modifiedInt);
 	}
 	Clear();
-	Write(_modifiedText);
+	Write(_modifiedText.c_str(), _modifiedText.size(),-1);
 	isCrypt = true;
 	return true;
 }
@@ -162,9 +164,9 @@ bool Tools::FileStream::Uncrypt()
 		_modifiedText += char(_modifiedInt);
 	}
 	Clear();
-	Write(_modifiedText);
+	Write(_modifiedText.c_str(), _modifiedText.size(), -1);
 	isCrypt = false;
-	return false;
+	return true;
 }
 
 bool Tools::FileStream::Write(const char* _content, const streamsize& _lengh, const streampos& _position)
