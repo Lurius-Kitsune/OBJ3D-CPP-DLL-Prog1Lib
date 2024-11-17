@@ -58,7 +58,8 @@ string Tools::FileStream::ReadLine(const u_int& _lineIndex)
 bool Tools::FileStream::RemoveLine(const u_int& _lineIndex)
 {
 	const streampos& _cursorMax = _lineIndex + 1 > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex + 1);
-	return Remove(GetOffset(0, _lineIndex), _cursorMax);
+	const streampos& _cursorMin = GetOffset(0, _lineIndex);
+	return Remove(_cursorMax - _cursorMin, _cursorMin);
 }
 
 bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _position)

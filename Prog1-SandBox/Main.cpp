@@ -10,8 +10,9 @@ int main()
 	SaveManager _sm = SaveManager("uwu.txt");
 
 
+	_sm.SaveData<string>("thomas", "marguerite");
 	cout << _sm.GetData<string>("thomas") << endl;
-	_sm.SaveData<int>("uwu", 8);
-	//_sm.SaveData<string>("uwu", "owo");
+
+
 	return 0;
 }

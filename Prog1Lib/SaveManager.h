@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <stdexcept>
 #include <type_traits>
@@ -42,15 +43,31 @@ namespace Save
 		void SaveData(const string& _key, const T& _data)
 		{
 			const string& _sData = "\n" + _key + ":" + Convert<T, string>(_data);
-			FileStream _fs = FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::out | ios_base::binary | ios_base::in);
-
 			if (KeyExists(_key))
 			{
-				cout << _fs.RemoveLine(GetKeyLine(_key)) << endl;
-				cout << "Line: " << GetKeyLine(_key) << endl;
-			} 
+				ifstream _read = GetReadStream();
+				ostringstream _buffer;
+				unsigned int _line = 0, _keyLine = GetKeyLine(_key);
 
-			// TODO Ajouter le _sData au fichier
+				string _lineV;
+				while (getline(_read, _lineV))
+				{
+					if (_line == _keyLine) _buffer << _sData;
+					else _buffer << "\n" + _lineV;
+					_line++;
+				}
+				_read.close();
+				ofstream _write = GetWriteStream(ios_base::binary | ios_base::out);
+				_write << _buffer.str().replace(0, 1, "");
+				_write.close();
+			}
+			else 
+			{
+				ofstream _write = GetWriteStream(ios_base::binary | ios_base::app);
+				_write << _sData;
+				_write.close();
+			}
+
 		}
 
 		/// <summary>
@@ -67,7 +84,6 @@ namespace Save
 			FileStream _fs = FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::in | ios_base::binary);
 
 			string _lineValue = _fs.ReadLine(GetKeyLine(_key));
-			_lineValue = RemoveInvisibleChars(_lineValue);
 
 			return Convert<string, T>(SplitString(_lineValue, ":")[1]);
 		}
@@ -121,7 +137,6 @@ namespace Save
 		/// <returns>vector : tableau de string</returns>
 		vector<string> SplitString(const string& _text, const char* _separator) const;
 
-
 		/// <summary>
 		/// Convertisseur entre types
 		/// </summary>
@@ -138,7 +153,7 @@ namespace Save
 			if constexpr (is_same<Input, string>::value) // Si la valeur d'entrée est un string
 			{
 				if constexpr (is_same<Result, int>::value) return std::stoi(_input);
-				else if constexpr (is_same<Result, bool>::value) return (_input == "true");
+				else if constexpr (is_same<Result, bool>::value) return (_input == "true\r");
 				else if constexpr (is_same<Result, char>::value) return _input[0];
 			}
 			else if constexpr (is_same<Input, int>::value) return to_string(_input);
@@ -148,19 +163,6 @@ namespace Save
 			throw exception("Unable to convert type");
 		}
 
-		/// <summary>
-		/// Retirer les caractères invisibles d'une chaîne de caractère pour permettre une conversion
-		/// </summary>
-		/// <param name="_text"></param>
-		/// <returns>string : chaîne de caractère sans les chars invisibles</returns>
-		string RemoveInvisibleChars(string& _text)
-		{
-			_text.erase(std::remove(_text.begin(), _text.end(), '\0'), _text.end());
-			_text.erase(std::remove(_text.begin(), _text.end(), ' '), _text.end());
-			_text.erase(std::remove(_text.begin(), _text.end(), '\n'), _text.end());
-			_text.erase(std::remove(_text.begin(), _text.end(), '\r'), _text.end());
-			return _text;
-		}
 	};
 }
 

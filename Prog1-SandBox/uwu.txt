@@ -1,5 +1,4 @@
-sodomite:true
-chinois:0
-feur:1
+feur:true
 thomas:marguerite
 uwu:8
+beta:k

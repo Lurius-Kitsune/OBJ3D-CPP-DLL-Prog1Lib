@@ -35,7 +35,7 @@ void Save::SaveManager::FileCreate() const
 
 bool Save::SaveManager::KeyExists(const string& _key) const
 {
-	return GetKeyIndex(_key) != -1;
+	return GetKeyLine(_key) != -1;
 }
 
 int Save::SaveManager::GetKeyIndex(const string& _key) const
