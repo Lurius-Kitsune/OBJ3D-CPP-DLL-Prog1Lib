@@ -5,15 +5,14 @@
 */
 
 #ifdef MYTOOL_EXPORTS
-#define MYTOOL_API __declspec(dllexport)
+#define DISPLAYSYSTEM_API __declspec(dllexport)
 #else
-#define MYTOOL_API __declspec(dllimport)
+#define DISPLAYSYSTEM_API __declspec(dllimport)
 #endif
 
 #include <iostream>
 
 using namespace std;
-
 typedef unsigned int u_int;
 
 /// <summary>
@@ -24,34 +23,54 @@ struct Coord
 	int x;
 	int y;
 };
-
 namespace Tools
 {
 	namespace Console
 	{
+		/// <summary>
+		/// Permet d'afficher ou non le texte en multicolore
+		/// <param name="RT_OFF">désactivé</param>
+		/// <param name="RT_CHAR">Couleur aléatoire pour chaque caractère</param>
+		/// <param name="RT_TEXT">Couleur aléatoire à chaque ligne</param>
+		/// </summary>
+		enum DISPLAYSYSTEM_API RainbowType
+		{
+			RT_OFF,
+			RT_CHAR,
+			RT_TEXT
+		};
+
+		//////////////////////////
+		/*		CONSOLE			*/
+		//////////////////////////
+
 		/// <summary>
 		/// Permet de définir la position du curseur dans la console
 		/// </summary>
 		/// <param name="_x">ligne</param>
 		/// <param name="_y">Colonne</param>
 		/// <param name="_cursor"> Affiche ou non la barre '|' du curseur</param>
-		MYTOOL_API void SetCursorPosition(const u_int& _x, const u_int& _y, const bool _cursor = false);
+		DISPLAYSYSTEM_API void SetCursorPosition(const u_int& _x, const u_int& _y, const bool _cursor = false);
 
 		/// <summary>
 		/// Permet de récupérer la position du centre de la console
 		/// </summary>
 		/// <returns>Retourne les coordonnées X (ligne) et Y (colonne)</returns>
-		MYTOOL_API Coord GetCenterConsole();
+		DISPLAYSYSTEM_API Coord GetCenterConsole();
+
+		//////////////////////////////
+		/*		SINGLE LINE			*/
+		//////////////////////////////
 
 		/// <summary>
 		/// Permet d'afficher au centre de la console une ligne de texte avec la possibilité de décaler l'affichage du centre (padding)
-		/// et de choisir quelle touche il faut appuyer pour quitter l'affichage.
 		/// Attention à ne pas mettre de endl ou de '\n'
 		/// </summary>
 		/// <param name="_text">Le texte à afficher</param>
+		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
 		/// <param name="_exitKey">Touche à appuyer pour quitter (Echap par défaut)</param>
-		MYTOOL_API void DisplayCenterLine(const string& _text, const Coord& _padding = { 0, 0 }, const int _exitKey = 27);
+		DISPLAYSYSTEM_API void DisplayCenterLine(const string& _text, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 }, const int _exitKey = 27);
 
 		/// <summary>
 		/// Permet d'afficher au centre de la console une ligne de texte avec la possibilité de décaler l'affichage du centre (padding)
@@ -59,40 +78,23 @@ namespace Tools
 		/// Attention à ne pas mettre de endl ou de '\n'
 		/// </summary>
 		/// <param name="_text">Le texte à afficher</param>
+		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
+		/// <param name="_input">Permet de renvoyer la valeur de la touche appuyé</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
-		MYTOOL_API void DisplayCenterLineWithInput(const string& _text, const Coord& _padding, int& _input);
+		DISPLAYSYSTEM_API void DisplayCenterLineWithInput(const string& _text, int& _input, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
 
 		/// <summary>
-		/// Permet d'afficher au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)
-		/// et de choisir quelle touche il faut appuyer pour quitter l'affichage.
-		/// Attention à ne pas mettre de endl ou de '\n'
-		/// </summary>
-		/// <param name="_textArray">Liste des mots à afficher par ligne</param>
-		/// <param name="_size">Taille de la liste _textArray</param>
-		/// <param name="_padding">Décale l'affichage du centre</param>
-		/// <param name="_exitKey">Touche à appuyer pour quitter (Echap par défaut)</param>
-		MYTOOL_API void DisplayCenterMultiLine(const string* _textArray, const u_int& _size, const Coord& _padding = { 0, 0 }, const int _exitKey = 27);
-
-		/// <summary>
-		/// Permet d'afficher au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)
-		/// et de retourner la touche sélectionné.
-		/// Attention à ne pas mettre de endl ou de '\n'
-		/// </summary>
-		/// <param name="_textArray">Liste des mots à afficher par ligne</param>
-		/// <param name="_size">Taille de la liste _textArray</param>
-		/// <param name="_padding">Décale l'affichage du centre</param>
-		MYTOOL_API void DisplayCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const Coord& _padding = { 0, 0 });
-
-		/// <summary>
-		/// Permet d'afficher au centre de la console une ligne de texte en arc-en-ciel avec la possibilité de décaler l'affichage du centre (padding)
-		/// et de choisir quelle touche il faut appuyer pour quitter l'affichage.
+		/// Permet d'afficher une fois au centre de la console une ligne de texte avec la possibilité de décaler l'affichage du centre (padding)
 		/// Attention à ne pas mettre de endl ou de '\n'
 		/// </summary>
 		/// <param name="_text">Le texte à afficher</param>
+		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
-		/// <param name="_sync">Tout les charactère change de la même couleur</param>
-		/// <param name="_exitKey">Touche à appuyer pour quitter (Echap par défaut)</param>
-		MYTOOL_API void DisplayRainbowCenterLine(const string& _text, const Coord& _padding = { 0, 0 }, const bool _sync = false, const int _exitKey = 27);
+		DISPLAYSYSTEM_API void DisplayOnceCenterLine(const string& _text, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
+
+		//////////////////////////////
+		/*		MULTI LINE			*/
+		//////////////////////////////
 
 		/// <summary>
 		/// Permet d'afficher au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)
@@ -101,10 +103,10 @@ namespace Tools
 		/// </summary>
 		/// <param name="_textArray">Liste des mots à afficher par ligne</param>
 		/// <param name="_size">Taille de la liste _textArray</param>
+		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
-		/// <param name="_sync">Tout les charactère change de la même couleur</param>
 		/// <param name="_exitKey">Touche à appuyer pour quitter (Echap par défaut)</param>
-		MYTOOL_API void DisplayRainbowCenterMultiLine(const string* _textArray, const u_int& _size, const Coord& _padding = { 0, 0 }, const bool _sync = false, const int _exitKey = 27);
+		DISPLAYSYSTEM_API void DisplayCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 }, const int _exitKey = 27);
 
 		/// <summary>
 		/// Permet d'afficher au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)
@@ -113,8 +115,23 @@ namespace Tools
 		/// </summary>
 		/// <param name="_textArray">Liste des mots à afficher par ligne</param>
 		/// <param name="_size">Taille de la liste _textArray</param>
+		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
+		/// <param name="_input">Permet de renvoyer la valeur de la touche appuyé</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
-		/// <param name="_sync">Tout les charactère change de la même couleur</param>
-		MYTOOL_API void DisplayRainbowCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const Coord& _padding = { 0, 0 }, const bool _sync = false);
+		DISPLAYSYSTEM_API void DisplayCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
+
+		/// <summary>
+		/// Permet d'afficher une fois au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)
+		/// Attention à ne pas mettre de endl ou de '\n'
+		/// </summary>
+		/// <param name="_textArray">Liste des mots à afficher par ligne</param>
+		/// <param name="_size">Taille de la liste _textArray</param>
+		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
+		/// <param name="_padding">Décale l'affichage du centre</param>
+		/// <returns></returns>
+		DISPLAYSYSTEM_API void DisplayOnceCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
+
+		DISPLAYSYSTEM_API void DisplayAnimatedCenterMultiLine(const string& _filePath, const string& _filePrefix, const u_int& _quantity, const u_int& _size, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
+
 	}
 }
