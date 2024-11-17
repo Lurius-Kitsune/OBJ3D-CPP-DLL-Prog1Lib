@@ -79,15 +79,15 @@ namespace Tools
 		virtual bool Remove(const T& _object)
 		{
 			if (!IsIn(_object)) return false;
-			return Remove(FindIndexOfObject(_object));
+			return RemoveByIndex(FindIndexOfObject(_object));
 		}
 
-		virtual bool Remove(int _index = -1)
+		virtual bool RemoveByIndex(int _index = -1)
 		{
 			if (_index < 0) _index = size - 1;
 			if (!IsValidIndex(_index)) return false;
 
-			T** _tempTab = new T * [size - 1];
+			T* _tempTab = new T[size - 1];
 			bool _isRemoved = false;
 			for (u_int _i = 0; _i < size; _i++)
 			{
@@ -204,10 +204,10 @@ namespace Tools
 		virtual bool Remove(T* _object, const bool _needToBeDelete = false)
 		{
 			if (!IsIn(_object)) return false;
-			return Remove(FindIndexOfObject(_object), _needToBeDelete);
+			return RemoveByIndex(FindIndexOfObject(_object), _needToBeDelete);
 		}
 
-		virtual bool Remove(int _index = -1, const bool _needToBeDelete = false)
+		virtual bool RemoveByIndex(int _index = -1, const bool _needToBeDelete = false)
 		{
 			if (_index < 0) _index = size-1;
 			if (!IsValidIndex(_index)) return false;

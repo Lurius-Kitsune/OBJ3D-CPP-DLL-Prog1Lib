@@ -13,9 +13,9 @@
 #include <stdexcept>
 #include <type_traits>
 
-#include <vector>
-
 #include "FileStream.h"
+#include "DynamicArray.h"
+
 using namespace Tools;
 
 using namespace std;
@@ -32,6 +32,7 @@ namespace Save
 	public:
 		SaveManager(const string& _path);
 		SaveManager(const string& _path, const string& _encryptionKey);
+		~SaveManager();
 
 		/// <summary>
 		/// Sauvegarder une donnée
@@ -42,34 +43,18 @@ namespace Save
 		template<typename T>
 		void SaveData(const string& _key, const T& _data)
 		{
-			const string& _sData = "\n" + _key + ":" + Convert<T, string>(_data);
+			const string& _sData = _key + ":" + Convert<T, string>(_data);
+			FileStream _fs = GetStream(ios_base::in | ios_base::out);
+			unsigned int _writeIndex = _fs.ComputeLenghOfFile();
 			if (KeyExists(_key))
 			{
-				ifstream _read = GetReadStream();
-				ostringstream _buffer;
-				unsigned int _line = 0, _keyLine = GetKeyLine(_key);
-
-				string _lineV;
-				while (getline(_read, _lineV))
-				{
-					if (_line == _keyLine) _buffer << _sData;
-					else _buffer << "\n" + _lineV;
-					_line++;
-				}
-				_read.close();
-				ofstream _write = GetWriteStream(ios_base::binary | ios_base::out);
-				_write << _buffer.str().replace(0, 1, "");
-				_write.close();
+				DynamicArray<int> _keyPos = GetKeyIndex(_key);
+				_writeIndex = GetKeyIndex(_key)[0];
+				_fs.RemoveLine(GetKeyIndex(_key)[1]);
 			}
-			else 
-			{
-				ofstream _write = GetWriteStream(ios_base::binary | ios_base::app);
-				_write << _sData;
-				_write.close();
-			}
-
+			_fs.Write(_sData, _writeIndex); // TODO Réparer les fichiers cryptés et les sauts de ligne
 		}
-
+		 
 		/// <summary>
 		/// Obtenir une donnée à partir de sa clé
 		/// </summary>
@@ -81,9 +66,8 @@ namespace Save
 		{
 			if (!KeyExists(_key)) throw exception("Key doesn't exist");
 			
-			FileStream _fs = FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::in | ios_base::binary);
-
-			string _lineValue = _fs.ReadLine(GetKeyLine(_key));
+			FileStream _fs = GetStream(ios_base::in);
+			string _lineValue = _fs.ReadLine(GetKeyIndex(_key)[1]);
 
 			return Convert<string, T>(SplitString(_lineValue, ":")[1]);
 		}
@@ -103,39 +87,32 @@ namespace Save
 		void FileCreate() const;
 
 		/// <summary>
-		/// Récupérer une instance flux entrant
+		/// Vérifier si le fichier existe
 		/// </summary>
-		/// <returns>ifstream</returns>
-		ifstream GetReadStream() const;
+		/// <returns>bool</returns>
+		bool FileExists() const;
 
 		/// <summary>
-		/// Récupérer une istance de flux sortant
+		/// Construire un FileStream
 		/// </summary>
-		/// <param name="_openmode">ios_base::openmode --> Préciser quel mode d'ouverture (binary est compris dedans)</param>
-		/// <returns>ofstream</returns>
-		ofstream GetWriteStream(const int _openmode) const;
+		/// <param name="_openmode">Mode d'écriture</param>
+		/// <returns>FileStream</returns>
+		FileStream GetStream(const int _openmode) const;
 
 		/// <summary>
-		/// Récupérer l'index à laquelle se trouve la clé
+		/// Récupérer l'index de la clé et la ligne sur laquelle elle se trouve
 		/// </summary>
-		/// <param name="_key">string : clé</param>
-		/// <returns>int : -1 si non trouvée | l'index de la ligne</returns>
-		int GetKeyIndex(const string& _key) const;
-
-		/// <summary>
-		/// Récupérer la ligne à laquelle se trouve la clé
-		/// </summary>
-		/// <param name="_key">string : clé</param>
-		/// <returns>int : -1 si non trouvée | l'index de la ligne</returns>
-		int GetKeyLine(const string& _key) const;
-
+		/// <param name="_key">Clé</param>
+		/// <returns>DynamicArray<int> (0 : index | 1 : ligne) | -1 si non trouvée</returns>
+		DynamicArray<int> GetKeyIndex(const string& _key) const;
+		
 		/// <summary>
 		/// Méthode pour recréer le split d'un string
 		/// </summary>
 		/// <param name="_text">string : à split</param>
 		/// <param name="_separator">char : sur quoi split</param>
 		/// <returns>vector : tableau de string</returns>
-		vector<string> SplitString(const string& _text, const char* _separator) const;
+		DynamicArray<string> SplitString(const string& _text, const char* _separator) const;
 
 		/// <summary>
 		/// Convertisseur entre types
