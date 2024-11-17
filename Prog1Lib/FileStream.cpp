@@ -71,7 +71,7 @@ bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _posi
 	getline(stream, _remainingContent, '\0');
 
 	stream.clear();
-	stream.seekg(0,stream.beg);
+	stream.seekg(0, stream.beg);
 	string _content = Read(_position, 0) + _remainingContent;
 	stream.close();
 	fstream _newStream = fstream(fullPath, ios::out);
@@ -108,7 +108,7 @@ streampos Tools::FileStream::GetOffset(const u_int& _horizontal, const u_int& _v
 		if (stream.get(_c))
 		{
 			const int _bob = static_cast<const int>(stream.tellg());
-			if (_c == '\n') _l++;
+			if (_c == '\n' || _c == '\r') _l++;
 			_index++;
 		}
 		else
@@ -198,7 +198,7 @@ int Tools::FileStream::ComputeLineOfFile()
 	char _c;
 	while (stream.get(_c))
 	{
-		if (_c == '\n') _line++;
+		if (_c == '\n' || _c == '\r') _line++;
 	}
 	stream.clear();
 
