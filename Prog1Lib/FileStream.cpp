@@ -87,7 +87,6 @@ bool Tools::FileStream::Clear()
 	return Remove(ComputeLenghOfFile(), 0);;
 }
 
-
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
 	if (isCrypt) 
