@@ -33,6 +33,8 @@ namespace Tools
 		#define HIDDEN_TEXT "\033[8m"				// Masqu�
 		#define DOUBLE_UNDERLINE_TEXT "\033[21m"	// Double soulign�e
 
+		#define BLINK_COLOR(x) "\033[5m" << x		// Clignotant
+
 		// Resets
 		#define RESET "\033[0m"
 		#define RESET_BOLD "\033[22m"

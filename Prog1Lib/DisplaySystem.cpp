@@ -6,8 +6,7 @@
 #include <string>
 #include <fstream>
 
-using namespace Color;
-using namespace Display;
+using namespace Tools::Console;
 
 string DisplayRainbowType(const string& _text, const RainbowType& _type)
 {
@@ -16,14 +15,14 @@ string DisplayRainbowType(const string& _text, const RainbowType& _type)
 	case RT_OFF:
 		return _text;
 	case RT_CHAR:
-		return RainbowChar(_text);
+		return RainbowEveryChar(_text);
 	case RT_TEXT:
-		return RainbowText(_text);
+		return RainbowString(_text);
 	}
 	return _text;
 }
 
-DISPLAYSYSTEM_API void Display::SetCursorPosition(const u_int& _x, const u_int& _y, const bool _cursor)
+DISPLAYSYSTEM_API void Tools::Console::SetCursorPosition(const u_int& _x, const u_int& _y, const bool _cursor)
 {
 	static const HANDLE _hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO _info;
@@ -35,7 +34,7 @@ DISPLAYSYSTEM_API void Display::SetCursorPosition(const u_int& _x, const u_int& 
 	SetConsoleCursorPosition(_hOut, coord);
 }
 
-DISPLAYSYSTEM_API Coord Display::GetCenterConsole()
+DISPLAYSYSTEM_API Coord Tools::Console::GetCenterConsole()
 {
 	CONSOLE_SCREEN_BUFFER_INFO _csbi;
 	int _columns, _rows;
@@ -68,7 +67,7 @@ bool CheckConsoleSize(Coord& _center, Coord& _previousCenter, const string& _tex
 	return false;
 }
 
-DISPLAYSYSTEM_API void Display::DisplayCenterLine(const string& _text, const RainbowType& _type, const Coord& _padding, const int _exitKey)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterLine(const string& _text, const RainbowType& _type, const Coord& _padding, const int _exitKey)
 {
 	int _key = 0;
 	Coord _center = GetCenterConsole();
@@ -88,7 +87,7 @@ DISPLAYSYSTEM_API void Display::DisplayCenterLine(const string& _text, const Rai
 	cout << RESET;
 }
 
-DISPLAYSYSTEM_API void Display::DisplayCenterLineWithInput(const string& _text, int& _input, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterLineWithInput(const string& _text, int& _input, const RainbowType& _type, const Coord& _padding)
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
@@ -108,7 +107,7 @@ DISPLAYSYSTEM_API void Display::DisplayCenterLineWithInput(const string& _text, 
 	} while (true);
 }
 
-DISPLAYSYSTEM_API void Display::DisplayCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding, const int _exitKey)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding, const int _exitKey)
 {
 	int _key = 0;
 	Coord _center = GetCenterConsole();
@@ -131,7 +130,7 @@ DISPLAYSYSTEM_API void Display::DisplayCenterMultiLine(const string* _textArray,
 	cout << RESET;
 }
 
-DISPLAYSYSTEM_API void Display::DisplayCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const RainbowType& _type, const Coord& _padding)
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
@@ -154,7 +153,7 @@ DISPLAYSYSTEM_API void Display::DisplayCenterMultiLineWithInput(const string* _t
 	} while (true);
 }
 
-DISPLAYSYSTEM_API void Display::DisplayOnceCenterLine(const string& _text, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterLine(const string& _text, const RainbowType& _type, const Coord& _padding)
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
@@ -165,7 +164,7 @@ DISPLAYSYSTEM_API void Display::DisplayOnceCenterLine(const string& _text, const
 	_previousCenter = _center;
 }
 
-DISPLAYSYSTEM_API void Display::DisplayOnceCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding)
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
@@ -185,7 +184,7 @@ string** MakeAnimatedFrame(const string& _filePath, const string& _filePrefix, c
 	return nullptr;
 }
 
-DISPLAYSYSTEM_API void Display::DisplayAnimatedCenterMultiLine(const string& _filePath, const string& _filePrefix, const u_int& _quantity, const u_int& _size, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayAnimatedCenterMultiLine(const string& _filePath, const string& _filePrefix, const u_int& _quantity, const u_int& _size, const RainbowType& _type, const Coord& _padding)
 {
 	bool _hasEnded = false;
 	while (!_hasEnded)
@@ -194,5 +193,3 @@ DISPLAYSYSTEM_API void Display::DisplayAnimatedCenterMultiLine(const string& _fi
 		//MakeAnimatedFrame(_filePath, _filePrefix, _quantity, _hasEnded);
 	}
 }
-
-
