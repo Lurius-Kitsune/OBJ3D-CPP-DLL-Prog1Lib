@@ -41,13 +41,10 @@ int main()
 {
     Config();
     
-	FileStream _file = FileStream("Thomas.txt", true);
-	_file.RemoveLine(1);
-
-	//TestDynamicArray();
-	//TestCharManip();
-	//TestOptimiseRandom();
-	//TestEncryptDecrypt();
+	TestDynamicArray();
+	TestCharManip();
+	TestOptimiseRandom();
+	TestEncryptDecrypt();
 	return -1;
 }
 
