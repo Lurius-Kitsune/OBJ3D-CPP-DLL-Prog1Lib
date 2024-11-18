@@ -1,14 +1,14 @@
 #include "pch.h"
 #include "SaveManager.h"
 
-Save::SaveManager::SaveManager(const string& _path)
+Tools::SaveManager::SaveManager(const string& _path)
 {
 	path = _path;
 	encryptionKey = nullptr;
 	if (!FileExists()) FileCreate();
 }
 
-Save::SaveManager::SaveManager(const string& _path, const string& _encryptionKey)
+Tools::SaveManager::SaveManager(const string& _path, const string& _encryptionKey)
 {
 	path = _path;
 	encryptionKey = new string(_encryptionKey);
@@ -25,7 +25,7 @@ void Save::SaveManager::FileCreate() const
 	GetStream(ios_base::out).Write("", 0);
 }
 
-bool Save::SaveManager::KeyExists(const string& _key) const
+DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) const
 {
 	return GetKeyIndex(_key)[0] != -1;
 }

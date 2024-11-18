@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma warning(disable : 4984)
+
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)
 #else
@@ -22,7 +24,8 @@ using namespace std;
 
 typedef ios_base ib;
 
-namespace Save
+
+namespace Tools
 {
 	class MYTOOL_API SaveManager
 	{

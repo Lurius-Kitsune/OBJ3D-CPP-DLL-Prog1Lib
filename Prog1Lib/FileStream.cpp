@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "FileStream.h"
 
 Tools::FileStream::FileStream(const string& _fullPath, const bool _autoCreate,
@@ -89,7 +89,6 @@ bool Tools::FileStream::Clear()
 	return Remove(ComputeLenghOfFile(), 0);;
 }
 
-
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
 	if (isCrypt)
@@ -105,7 +104,7 @@ streampos Tools::FileStream::GetOffset(const u_int& _horizontal, const u_int& _v
 	u_int _index = 0, _l = 0;
 	char _c;
 	stream.seekg(0, stream.beg);
-	while (_l != _vertical) // Aller � la bonne ligne
+	while (_l != _vertical) // Aller à la bonne ligne
 	{
 		if (stream.get(_c))
 		{
