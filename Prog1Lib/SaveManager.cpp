@@ -5,80 +5,79 @@ Save::SaveManager::SaveManager(const string& _path)
 {
 	path = _path;
 	encryptionKey = nullptr;
-	if (!GetReadStream()) FileCreate();
+	if (!FileExists()) FileCreate();
 }
 
 Save::SaveManager::SaveManager(const string& _path, const string& _encryptionKey)
 {
 	path = _path;
-	*encryptionKey = _encryptionKey;
-	if (!GetReadStream()) FileCreate();
+	encryptionKey = new string(_encryptionKey);
+	if (!FileExists()) FileCreate();
 }
 
-ifstream Save::SaveManager::GetReadStream() const
+Save::SaveManager::~SaveManager()
 {
-	return ifstream(path, ib::binary | ib::in);
-}
-
-ofstream Save::SaveManager::GetWriteStream(const int _openmode) const
-{
-	return ofstream(path, ib::binary | _openmode);
+	if (encryptionKey) delete encryptionKey;
 }
 
 void Save::SaveManager::FileCreate() const
 {
-	cout << "File " << path << " created" << endl;
-	ofstream _write = GetWriteStream(ib::out);
-	_write << "";
-	_write.close();
+	GetStream(ios_base::out).Write("", 0);
 }
 
 bool Save::SaveManager::KeyExists(const string& _key) const
 {
-	return GetKeyIndex(_key) != -1;
+	return GetKeyIndex(_key)[0] != -1;
 }
 
-int Save::SaveManager::GetKeyIndex(const string& _key) const
+DynamicArray<int> Save::SaveManager::GetKeyIndex(const string& _key) const
 {
-	ifstream _read = GetReadStream();
-	unsigned int _index = 0;
+	DynamicArray<int> _result = DynamicArray<int>();
+	FileStream _fs = GetStream(ios_base::in);
+	_fs.SetIsCryptFile(encryptionKey);
+	_fs.Uncrypt();
+	unsigned int _index = 0, _line = 0;
 
-	string _line;
-	while (getline(_read, _line))
+	string _lineValue = _fs.ReadLine(0);
+	while (_lineValue.size() > 0)
 	{
-		if (SplitString(_line, ":")[0] == _key) return _index;
-		_index += _line.size() + 1;
+		if (SplitString(_lineValue, ":")[0] == _key)
+		{
+			_result.Add(_index);
+			_result.Add(_line);
+			return _result;
+		}
+		_line++;
+		_index += _lineValue.size() + 1;
+		_lineValue = _fs.ReadLine(_line);
 	}
-	return -1;
-}
+	_result.Add(-1);
 
-int Save::SaveManager::GetKeyLine(const string& _key) const
-{
-	ifstream _read = GetReadStream();
-	unsigned int _lineIndex = 0;
-
-	string _line;
-	while (getline(_read, _line))
-	{
-		if (SplitString(_line, ":")[0] == _key) return _lineIndex;
-		_lineIndex++;
-	}
-	return -1;
+	return _result;
 }
 
 
-vector<string> Save::SaveManager::SplitString(const string& _text, const char* _separator) const
+FileStream Save::SaveManager::GetStream(const int _openmode) const
 {
+	return FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::binary | _openmode);
+}
+
+bool Save::SaveManager::FileExists() const
+{
+	return GetStream(ios_base::in).IsValid();
+}
+
+DynamicArray<string> Save::SaveManager::SplitString(const string& _text, const char* _separator) const
+{
+	DynamicArray<string> _tokens = DynamicArray<string>();
 	char* _lineCopy = new char[size(_text) + 1];
 	strcpy_s(_lineCopy, _text.size() + 1, _text.c_str());
 	char* _context = nullptr;
 
-	vector<string> _tokens;
-
 	char* _token = strtok_s(_lineCopy, _separator, &_context);
 	while (_token != nullptr)
 	{
-		_tokens.emplace_back(_token);
+		_tokens.Add(_token);
 		_token = strtok_s(nullptr, _separator, &_context);
 	}
 	delete[] _lineCopy;

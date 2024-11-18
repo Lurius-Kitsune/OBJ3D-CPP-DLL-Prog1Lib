@@ -8,13 +8,14 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <stdexcept>
 #include <type_traits>
 
-#include <vector>
-
 #include "FileStream.h"
+#include "DynamicArray.h"
+
 using namespace Tools;
 
 using namespace std;
@@ -31,6 +32,7 @@ namespace Save
 	public:
 		SaveManager(const string& _path);
 		SaveManager(const string& _path, const string& _encryptionKey);
+		~SaveManager();
 
 		/// <summary>
 		/// Sauvegarder une donnée
@@ -41,18 +43,17 @@ namespace Save
 		template<typename T>
 		void SaveData(const string& _key, const T& _data)
 		{
-			const string& _sData = "\n" + _key + ":" + Convert<T, string>(_data);
-			FileStream _fs = FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::out | ios_base::binary | ios_base::in);
-
+			const string& _sData = _key + ":" + Convert<T, string>(_data) + "\n";
+			FileStream _fs = GetStream(ios_base::in | ios_base::out);
 			if (KeyExists(_key))
 			{
-				cout << _fs.RemoveLine(GetKeyLine(_key)) << endl;
-				cout << "Line: " << GetKeyLine(_key) << endl;
-			} 
-
-			// TODO Ajouter le _sData au fichier
+				DynamicArray<int> _keyPos = GetKeyIndex(_key);
+				_fs.RemoveLine(GetKeyIndex(_key)[1]);
+			}
+			FileStream _fW = GetStream(ios_base::in | ios_base::app);
+			_fW.Write(_sData);
 		}
-
+		 
 		/// <summary>
 		/// Obtenir une donnée à partir de sa clé
 		/// </summary>
@@ -64,12 +65,19 @@ namespace Save
 		{
 			if (!KeyExists(_key)) throw exception("Key doesn't exist");
 			
-			FileStream _fs = FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::in | ios_base::binary);
+			FileStream _fs = GetStream(ios_base::in);
+			string _lineValue = _fs.ReadLine(GetKeyIndex(_key)[1]);
 
-			string _lineValue = _fs.ReadLine(GetKeyLine(_key));
-			_lineValue = RemoveInvisibleChars(_lineValue);
+			DynamicArray<string> _tokens = SplitString(_lineValue, ":");
+			unsigned int _contentParts = _tokens.GetSize();
+			string _totalContent = "";
 
-			return Convert<string, T>(SplitString(_lineValue, ":")[1]);
+			for (unsigned int _i = 1; _i < _contentParts; _i++)
+			{
+				_totalContent += string(_i > 1 ? ":" : "") + _tokens[_i];
+			} // Tout ça au cas où la chaîne récupérée contient le symbole :
+ 
+			return Convert<string, T>(_totalContent);
 		}
 
 		/// <summary>
@@ -87,40 +95,32 @@ namespace Save
 		void FileCreate() const;
 
 		/// <summary>
-		/// Récupérer une instance flux entrant
+		/// Vérifier si le fichier existe
 		/// </summary>
-		/// <returns>ifstream</returns>
-		ifstream GetReadStream() const;
+		/// <returns>bool</returns>
+		bool FileExists() const;
 
 		/// <summary>
-		/// Récupérer une istance de flux sortant
+		/// Construire un FileStream
 		/// </summary>
-		/// <param name="_openmode">ios_base::openmode --> Préciser quel mode d'ouverture (binary est compris dedans)</param>
-		/// <returns>ofstream</returns>
-		ofstream GetWriteStream(const int _openmode) const;
+		/// <param name="_openmode">Mode d'écriture</param>
+		/// <returns>FileStream</returns>
+		FileStream GetStream(const int _openmode) const;
 
 		/// <summary>
-		/// Récupérer l'index à laquelle se trouve la clé
+		/// Récupérer l'index de la clé et la ligne sur laquelle elle se trouve
 		/// </summary>
-		/// <param name="_key">string : clé</param>
-		/// <returns>int : -1 si non trouvée | l'index de la ligne</returns>
-		int GetKeyIndex(const string& _key) const;
-
-		/// <summary>
-		/// Récupérer la ligne à laquelle se trouve la clé
-		/// </summary>
-		/// <param name="_key">string : clé</param>
-		/// <returns>int : -1 si non trouvée | l'index de la ligne</returns>
-		int GetKeyLine(const string& _key) const;
-
+		/// <param name="_key">Clé</param>
+		/// <returns>DynamicArray<int> (0 : index | 1 : ligne) | -1 si non trouvée</returns>
+		DynamicArray<int> GetKeyIndex(const string& _key) const;
+		
 		/// <summary>
 		/// Méthode pour recréer le split d'un string
 		/// </summary>
 		/// <param name="_text">string : à split</param>
 		/// <param name="_separator">char : sur quoi split</param>
 		/// <returns>vector : tableau de string</returns>
-		vector<string> SplitString(const string& _text, const char* _separator) const;
-
+		DynamicArray<string> SplitString(const string& _text, const char* _separator) const;
 
 		/// <summary>
 		/// Convertisseur entre types
@@ -138,7 +138,7 @@ namespace Save
 			if constexpr (is_same<Input, string>::value) // Si la valeur d'entrée est un string
 			{
 				if constexpr (is_same<Result, int>::value) return std::stoi(_input);
-				else if constexpr (is_same<Result, bool>::value) return (_input == "true");
+				else if constexpr (is_same<Result, bool>::value) return (_input == "true\r");
 				else if constexpr (is_same<Result, char>::value) return _input[0];
 			}
 			else if constexpr (is_same<Input, int>::value) return to_string(_input);
@@ -148,19 +148,6 @@ namespace Save
 			throw exception("Unable to convert type");
 		}
 
-		/// <summary>
-		/// Retirer les caractères invisibles d'une chaîne de caractère pour permettre une conversion
-		/// </summary>
-		/// <param name="_text"></param>
-		/// <returns>string : chaîne de caractère sans les chars invisibles</returns>
-		string RemoveInvisibleChars(string& _text)
-		{
-			_text.erase(std::remove(_text.begin(), _text.end(), '\0'), _text.end());
-			_text.erase(std::remove(_text.begin(), _text.end(), ' '), _text.end());
-			_text.erase(std::remove(_text.begin(), _text.end(), '\n'), _text.end());
-			_text.erase(std::remove(_text.begin(), _text.end(), '\r'), _text.end());
-			return _text;
-		}
 	};
 }
 
