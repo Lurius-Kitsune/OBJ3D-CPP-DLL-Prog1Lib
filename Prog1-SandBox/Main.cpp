@@ -15,7 +15,7 @@ void TestEncryptDecrypt();
 
 class Bob
 {
-    string name;
+	string name;
 public:
 	Bob()
 	{
@@ -30,6 +30,7 @@ public:
 	{
 		return name;
 	}
+};
 
 int main()
 {
