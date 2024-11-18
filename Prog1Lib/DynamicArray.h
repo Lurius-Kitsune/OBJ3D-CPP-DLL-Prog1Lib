@@ -31,7 +31,7 @@ namespace Tools
 			tab = new T[size];
 		}
 
-		DynamicArray(const T* _tab, const int _size)
+		DynamicArray(const initializer_list<T>& _tab, const int _size)
 		{
 			size = _size;
 			tab = _tab;
@@ -180,7 +180,7 @@ namespace Tools
 			tab = new T*[size];
 		}
 
-		DynamicArray(const T** _tab, const int _size)
+		DynamicArray(const initializer_list<T*>& _tab, const int _size)
 		{
 			size = _size;
 			tab = _tab;
