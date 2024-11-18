@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "FileStream.h"
 
 Tools::FileStream::FileStream(const string& _fullPath, const bool _autoCreate,
@@ -58,8 +58,13 @@ string Tools::FileStream::ReadLine(const u_int& _lineIndex)
 bool Tools::FileStream::RemoveLine(const u_int& _lineIndex)
 {
 
+<<<<<<< HEAD
 	streampos _cursor = _lineIndex > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex) ;
 	if(ComputeLineOfFile() > 1) _cursor = _cursor.operator-(_lineIndex == ComputeLineOfFile() ? 1 : 0);
+=======
+	streampos _cursor = _lineIndex > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex);
+	if (ComputeLineOfFile() > 1) _cursor = _cursor.operator-(_lineIndex == ComputeLineOfFile() ? 1 : 0);
+>>>>>>> - Patch conflited file !
 	return Remove(ReadLine(_lineIndex).size() + 1, _cursor);
 }
 
@@ -90,12 +95,15 @@ bool Tools::FileStream::Clear()
 }
 
 
+<<<<<<< HEAD
 bool Tools::FileStream::Clear()
 {
 	if (ComputeLenghOfFile() == 0) return false;
 	return Remove(ComputeLenghOfFile(), 0);;
 }
 
+=======
+>>>>>>> - Patch conflited file !
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
 	if (isCrypt)
@@ -111,12 +119,20 @@ streampos Tools::FileStream::GetOffset(const u_int& _horizontal, const u_int& _v
 	u_int _index = 0, _l = 0;
 	char _c;
 	stream.seekg(0, stream.beg);
-	while (_l != _vertical) // Aller à la bonne ligne
+<<<<<<< HEAD
+	while (_l != _vertical) // Aller ï¿½ la bonne ligne
+=======
+	while (_l != _vertical) // Aller ï¿½ la bonne ligne
+>>>>>>> - Patch conflited file !
 	{
 		if (stream.get(_c))
 		{
 			const int _bob = static_cast<const int>(stream.tellg());
+<<<<<<< HEAD
 			if (_c == '\n' || _c == '\r') _l++;
+=======
+			if (_c == '\n') _l++;
+>>>>>>> - Patch conflited file !
 			_index++;
 		}
 		else

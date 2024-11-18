@@ -51,8 +51,14 @@
     <ClInclude Include="DynamicArray.h">
       <Filter>Header Files\File</Filter>
     </ClInclude>
+    <ClInclude Include="CharManip.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressBar.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
     <ClInclude Include="SaveManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\File</Filter>
     </ClInclude>
     <ClInclude Include="ProgressBar.h">
       <Filter>Header Files\File</Filter>
@@ -80,8 +86,14 @@
     <ClCompile Include="DisplaySystem.cpp">
       <Filter>Source Files\File</Filter>
     </ClCompile>
+    <ClCompile Include="CharManip.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressBar.cpp">
+      <Filter>Source Files\File</Filter>
+    </ClCompile>
     <ClCompile Include="SaveManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\File</Filter>
     </ClCompile>
     <ClCompile Include="ProgressBar.cpp">
       <Filter>Source Files\File</Filter>
