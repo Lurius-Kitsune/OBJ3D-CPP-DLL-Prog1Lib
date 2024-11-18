@@ -78,7 +78,7 @@ bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _posi
 	_write << _content;
 	_write.close();
 
-	stream.open(fullPath, openMode);
+	stream = fstream(fullPath, openMode);
 
 	return stream.good();
 }

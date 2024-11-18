@@ -34,8 +34,6 @@ Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) con
 {
 	DynamicArray<int> _result = DynamicArray<int>();
 	FileStream _fs = GetStream(ios_base::in);
-	_fs.SetIsCryptFile(encryptionKey);
-	_fs.Uncrypt();
 	unsigned int _index = 0, _line = 0;
 
 	string _lineValue = _fs.ReadLine(0);
@@ -48,7 +46,7 @@ Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) con
 			return _result;
 		}
 		_line++;
-		_index += _lineValue.size() + 1;
+		_index += static_cast<u_int>(_lineValue.size()) + 1;
 		_lineValue = _fs.ReadLine(_line);
 	}
 	_result.Add(-1);
