@@ -1,5 +1,4 @@
 #pragma once
-
 #pragma warning(disable : 4984)
 
 #ifdef MYTOOL_EXPORTS
@@ -18,12 +17,9 @@
 #include "FileStream.h"
 #include "DynamicArray.h"
 
-using namespace Tools;
-
 using namespace std;
 
 typedef ios_base ib;
-
 
 namespace Tools
 {

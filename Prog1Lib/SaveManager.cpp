@@ -15,22 +15,22 @@ Tools::SaveManager::SaveManager(const string& _path, const string& _encryptionKe
 	if (!FileExists()) FileCreate();
 }
 
-Save::SaveManager::~SaveManager()
+Tools::SaveManager::~SaveManager()
 {
 	if (encryptionKey) delete encryptionKey;
 }
 
-void Save::SaveManager::FileCreate() const
+void Tools::SaveManager::FileCreate() const
 {
 	GetStream(ios_base::out).Write("", 0);
 }
 
-DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) const
+bool Tools::SaveManager::KeyExists(const string& _key) const
 {
 	return GetKeyIndex(_key)[0] != -1;
 }
 
-DynamicArray<int> Save::SaveManager::GetKeyIndex(const string& _key) const
+Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) const
 {
 	DynamicArray<int> _result = DynamicArray<int>();
 	FileStream _fs = GetStream(ios_base::in);
@@ -57,17 +57,17 @@ DynamicArray<int> Save::SaveManager::GetKeyIndex(const string& _key) const
 }
 
 
-FileStream Save::SaveManager::GetStream(const int _openmode) const
+Tools::FileStream Tools::SaveManager::GetStream(const int _openmode) const
 {
 	return FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::binary | _openmode);
 }
 
-bool Save::SaveManager::FileExists() const
+bool Tools::SaveManager::FileExists() const
 {
 	return GetStream(ios_base::in).IsValid();
 }
 
-DynamicArray<string> Save::SaveManager::SplitString(const string& _text, const char* _separator) const
+Tools::DynamicArray<string> Tools::SaveManager::SplitString(const string& _text, const char* _separator) const
 {
 	DynamicArray<string> _tokens = DynamicArray<string>();
 	char* _lineCopy = new char[size(_text) + 1];
