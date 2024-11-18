@@ -57,28 +57,30 @@ string Tools::FileStream::ReadLine(const u_int& _lineIndex)
 
 bool Tools::FileStream::RemoveLine(const u_int& _lineIndex)
 {
-	const streampos& _cursorMax = _lineIndex + 1 > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex + 1);
-	const streampos& _cursorMin = GetOffset(0, _lineIndex);
-	return Remove(_cursorMax - _cursorMin, _cursorMin);
+
+	streampos _cursor = _lineIndex > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex) ;
+	if(ComputeLineOfFile() > 1) _cursor = _cursor.operator-(_lineIndex == ComputeLineOfFile() ? 1 : 0);
+	cout << ComputeLineOfFile() << endl;
+	return Remove(ReadLine(_lineIndex).size() + 1, _cursor);
 }
 
 bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _position)
 {
 	if (!IsValid()) return false;
 
-	string _remainingContent;
-	stream.seekp(_position + _length);
-	getline(stream, _remainingContent, '\0');
-
 	stream.clear();
-	stream.seekg(0, stream.beg);
-	string _content = Read(_position, 0) + _remainingContent;
-	stream.close();
-	fstream _newStream = fstream(fullPath, ios::out);
-	_newStream.write(_content.c_str(), _content.size());
-	_newStream.close();
+
+	string _content = Read(_position, 0);
+	_content += Read(ComputeLenghOfFile() - _position, _position + _length);
+	_content.erase(remove(_content.begin(), _content.end(), '\r'), _content.end());
+	_content.erase(remove(_content.begin(), _content.end(), '\0'), _content.end());
+
+	fstream _write = fstream(fullPath, ios::out | ios_base::binary);
+	_write << _content;
+	_write.close();
+
 	stream.open(fullPath, openMode);
-	stream.flush();
+
 	return stream.good();
 }
 
@@ -195,11 +197,11 @@ bool Tools::FileStream::Write(const char* _content, const streamsize& _lengh, co
 
 int Tools::FileStream::ComputeLineOfFile()
 {
-	int _line = 0;
+	int _line = 1;
 	char _c;
 	while (stream.get(_c))
 	{
-		if (_c == '\n') _line++;
+		if (_c == '\n' || _c == '\r') _line++;
 	}
 	stream.clear();
 

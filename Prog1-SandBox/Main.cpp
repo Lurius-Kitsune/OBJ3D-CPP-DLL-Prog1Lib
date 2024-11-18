@@ -13,12 +13,10 @@ int main()
 	//SaveManager _owo = SaveManager("secret_owo.txt", "feur");
 
 
-	_sm.SaveData<string>("thomas", "marguerite");
-	//_owo.SaveData<string>("quoi", "feur");
-	//cout << _owo.GetData<string>("quoi") << endl;
+	_sm.SaveData<string>("thomas", "fd");
+	//cout << "Valeur : " << _sm.GetData<string>("thomas") << endl;
 
-	cout << _sm.GetData<string>("thomas") << endl;
-
-
+	//_owo.SaveData<string>("test", "uwu");
+	//cout << _owo.GetData<string>("test");
 	return 0;
 }

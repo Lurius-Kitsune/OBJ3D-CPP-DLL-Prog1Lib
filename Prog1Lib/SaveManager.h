@@ -45,6 +45,7 @@ namespace Save
 		{
 			const string& _sData = _key + ":" + Convert<T, string>(_data);
 			FileStream _fs = GetStream(ios_base::in | ios_base::out);
+			//if (encryptionKey) _fs.Uncrypt();
 			unsigned int _writeIndex = _fs.ComputeLenghOfFile();
 			if (KeyExists(_key))
 			{
@@ -52,7 +53,9 @@ namespace Save
 				_writeIndex = GetKeyIndex(_key)[0];
 				_fs.RemoveLine(GetKeyIndex(_key)[1]);
 			}
-			_fs.Write(_sData, _writeIndex); // TODO Réparer les fichiers cryptés et les sauts de ligne
+			FileStream _fW = GetStream(ios_base::in | ios_base::app);
+			_fW.Write(_sData + (_fW.ComputeLineOfFile() > 0 ? "\n" : ""));
+		//	if (encryptionKey) _fW.Crypt();
 		}
 		 
 		/// <summary>
@@ -67,7 +70,9 @@ namespace Save
 			if (!KeyExists(_key)) throw exception("Key doesn't exist");
 			
 			FileStream _fs = GetStream(ios_base::in);
+			if (encryptionKey) _fs.Uncrypt();
 			string _lineValue = _fs.ReadLine(GetKeyIndex(_key)[1]);
+			if (encryptionKey) _fs.Crypt();
 
 			return Convert<string, T>(SplitString(_lineValue, ":")[1]);
 		}
