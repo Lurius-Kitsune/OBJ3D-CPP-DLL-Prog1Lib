@@ -43,19 +43,15 @@ namespace Save
 		template<typename T>
 		void SaveData(const string& _key, const T& _data)
 		{
-			const string& _sData = _key + ":" + Convert<T, string>(_data);
+			const string& _sData = _key + ":" + Convert<T, string>(_data) + "\n";
 			FileStream _fs = GetStream(ios_base::in | ios_base::out);
-			//if (encryptionKey) _fs.Uncrypt();
-			unsigned int _writeIndex = _fs.ComputeLenghOfFile();
 			if (KeyExists(_key))
 			{
 				DynamicArray<int> _keyPos = GetKeyIndex(_key);
-				_writeIndex = GetKeyIndex(_key)[0];
 				_fs.RemoveLine(GetKeyIndex(_key)[1]);
 			}
 			FileStream _fW = GetStream(ios_base::in | ios_base::app);
-			_fW.Write(_sData + (_fW.ComputeLineOfFile() > 0 ? "\n" : ""));
-		//	if (encryptionKey) _fW.Crypt();
+			_fW.Write(_sData);
 		}
 		 
 		/// <summary>
@@ -70,11 +66,18 @@ namespace Save
 			if (!KeyExists(_key)) throw exception("Key doesn't exist");
 			
 			FileStream _fs = GetStream(ios_base::in);
-			if (encryptionKey) _fs.Uncrypt();
 			string _lineValue = _fs.ReadLine(GetKeyIndex(_key)[1]);
-			if (encryptionKey) _fs.Crypt();
 
-			return Convert<string, T>(SplitString(_lineValue, ":")[1]);
+			DynamicArray<string> _tokens = SplitString(_lineValue, ":");
+			unsigned int _contentParts = _tokens.GetSize();
+			string _totalContent = "";
+
+			for (unsigned int _i = 1; _i < _contentParts; _i++)
+			{
+				_totalContent += string(_i > 1 ? ":" : "") + _tokens[_i];
+			} // Tout ça au cas où la chaîne récupérée contient le symbole :
+ 
+			return Convert<string, T>(_totalContent);
 		}
 
 		/// <summary>

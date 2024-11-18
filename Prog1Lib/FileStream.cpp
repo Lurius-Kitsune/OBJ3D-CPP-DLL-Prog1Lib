@@ -60,7 +60,6 @@ bool Tools::FileStream::RemoveLine(const u_int& _lineIndex)
 
 	streampos _cursor = _lineIndex > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex) ;
 	if(ComputeLineOfFile() > 1) _cursor = _cursor.operator-(_lineIndex == ComputeLineOfFile() ? 1 : 0);
-	cout << ComputeLineOfFile() << endl;
 	return Remove(ReadLine(_lineIndex).size() + 1, _cursor);
 }
 
@@ -206,5 +205,5 @@ int Tools::FileStream::ComputeLineOfFile()
 	stream.clear();
 
 	stream.seekg(0, stream.beg);
-	return _line - 1;
+	return _line;
 }
