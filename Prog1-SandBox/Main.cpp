@@ -41,10 +41,13 @@ int main()
 {
     Config();
     
-	TestDynamicArray();
-	TestCharManip();
-	TestOptimiseRandom();
-	TestEncryptDecrypt();
+	FileStream _file = FileStream("Thomas.txt", true);
+	_file.RemoveLine(1);
+
+	//TestDynamicArray();
+	//TestCharManip();
+	//TestOptimiseRandom();
+	//TestEncryptDecrypt();
 	return -1;
 }
 
@@ -116,3 +119,5 @@ void TestEncryptDecrypt()
 	_file.Uncrypt();
 	DISPLAY(_file.Read(_file.ComputeLenghOfFile()), true);
 }
+
+

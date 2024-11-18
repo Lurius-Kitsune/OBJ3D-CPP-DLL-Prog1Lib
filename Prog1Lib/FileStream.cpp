@@ -59,7 +59,7 @@ bool Tools::FileStream::RemoveLine(const u_int& _lineIndex)
 {
 	const streampos& _cursorMax = _lineIndex + 1 > static_cast<u_int>(ComputeLineOfFile()) ? ComputeLenghOfFile() : GetOffset(0, _lineIndex + 1);
 	const streampos& _cursorMin = GetOffset(0, _lineIndex);
-	return Remove(_cursorMax - _cursorMin, _cursorMin);
+	return Remove(_cursorMax - _cursorMin, _cursorMin - streampos(1));
 }
 
 bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _position)
@@ -107,7 +107,7 @@ streampos Tools::FileStream::GetOffset(const u_int& _horizontal, const u_int& _v
 		if (stream.get(_c))
 		{
 			const int _bob = static_cast<const int>(stream.tellg());
-			if (_c == '\n' || _c == '\r') _l++;
+			if (_c == '\n') _l++;
 			_index++;
 		}
 		else
@@ -197,7 +197,7 @@ int Tools::FileStream::ComputeLineOfFile()
 	char _c;
 	while (stream.get(_c))
 	{
-		if (_c == '\n' || _c == '\r') _line++;
+		if (_c == '\n') _line++;
 	}
 	stream.clear();
 
