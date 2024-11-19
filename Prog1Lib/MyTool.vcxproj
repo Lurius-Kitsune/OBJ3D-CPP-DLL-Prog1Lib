@@ -143,9 +143,13 @@
     <ClInclude Include="CharManip.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DisplaySystem.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Stack.h" />
+    <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Macro.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="Random.h" />

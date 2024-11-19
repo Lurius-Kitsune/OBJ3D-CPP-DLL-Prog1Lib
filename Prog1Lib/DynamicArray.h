@@ -42,18 +42,44 @@ namespace Tools
 			delete[] tab;
 		}
 
-		virtual T operator[](const int _index)
+		virtual T& operator[](const int _index)
 		{
-			if (!IsValidIndex(_index)) throw std::exception("Index out of range");
+			const int _sizeInt = static_cast<int>(size);
+			if (_index > _sizeInt) throw std::exception("[ERROR]index out of range");
+			if (_index < 0)
+			{
+				const int _newIndex = _sizeInt - ((-_index) % _sizeInt);
+				return tab[_newIndex];
+			}
 			return tab[_index];
 		}
 
 		virtual const T& operator[](const int _index)const
 		{
-			if (!IsValidIndex(_index)) throw std::exception("Index out of range");
+			const int _sizeInt = static_cast<int>(size);
+			if (_index > _sizeInt) throw std::exception("[ERROR]index out of range");
+			if (_index < 0)
+			{
+				const int _newIndex = _sizeInt - ((-_index) % _sizeInt);
+				return tab[_newIndex];
+			}
 			return tab[_index];
 		}
-
+		virtual void operator += (const T& _object)
+		{
+			Add(_object);
+		}
+		virtual void operator += (const initializer_list<T>& _tab)
+		{
+			for (const T& _object : _tab)
+			{
+				Add(_object);
+			}
+		}
+		virtual void operator -- ()
+		{
+			RemoveByIndex();
+		}
 		/// <summary>
 		/// Ajoute un objet <Type> dans le tableau à l'index donner
 		/// </summary>
@@ -195,18 +221,44 @@ namespace Tools
 			delete[] tab;
 		}
 
-		virtual T* operator[](const int _index)
+		virtual T*& operator[](const int _index)
 		{
-			if (!IsValidIndex(_index)) throw std::exception("[ERROR]index out of range");
+			const int _sizeInt = static_cast<int>(size);
+			if (_index > _sizeInt) throw std::exception("[ERROR]index out of range");
+			if (_index < 0)
+			{
+				const int _newIndex = _sizeInt - ((-_index) % _sizeInt);
+				return tab[_newIndex];
+			}
 			return tab[_index];
 		}
 
 		virtual const T* operator[](const int _index)const
 		{
-			if (!IsValidIndex(_index)) throw std::exception("[ERROR]index out of range");
+			const int _sizeInt = static_cast<int>(size);
+			if (_index > _sizeInt) throw std::exception("[ERROR]index out of range");
+			if (_index < 0)
+			{
+				const int _newIndex = _sizeInt - ((-_index) % _sizeInt);
+				return tab[_newIndex];
+			}
 			return tab[_index];
 		}
-
+		virtual void operator += (T* _object)
+		{
+			Add(_object);
+		}
+		virtual void operator += (const initializer_list<T*>& _tab)
+		{
+			for (T* _object : _tab)
+			{
+				Add(_object);
+			}
+		}
+		virtual void operator -- ()
+		{
+			RemoveByIndex();
+		}
 		/// <summary>
 		/// Ajoute un objet pointeur de <Type> dans le tableau à l'index donner
 		/// </summary>
