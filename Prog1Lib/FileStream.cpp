@@ -40,6 +40,7 @@ string Tools::FileStream::Read(const streamsize& _length, const streampos& _posi
 		stream.seekg(_position);
 	}
 	stream.read(&_content[0], _length);
+
 	return _content;
 }
 
@@ -190,6 +191,7 @@ bool Tools::FileStream::Write(const char* _content, const streamsize& _lengh, co
 	{
 		stream.write(_remainingContent.c_str(), _remainingContent.size());
 	}
+
 	return stream.good();
 }
 
