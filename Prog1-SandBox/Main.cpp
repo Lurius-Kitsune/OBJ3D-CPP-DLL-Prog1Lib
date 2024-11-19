@@ -116,9 +116,17 @@ void TestEncryptDecrypt()
 
 void TestSave()
 {
+<<<<<<< Updated upstream
 	FileStream _file = FileStream("Thomas.txt", true, "MaCleAMoi");
 	cout << *_file.ReadAll() << endl;
 	_file.Crypt();
 	SaveManager _sm = SaveManager("Thomas.txt", "MaCleAMoi");
+=======
+	SaveManager _sm = SaveManager("Truc.txt");
+	//_sm.SaveData("test", "truc");
+	_sm.SaveData("chepa", 100);
+	_sm.SaveData("feur", 1);
+	_sm.SaveData("toucher", bool(true));
+>>>>>>> Stashed changes
 	cout << _sm.GetData<string>("feur");
 }

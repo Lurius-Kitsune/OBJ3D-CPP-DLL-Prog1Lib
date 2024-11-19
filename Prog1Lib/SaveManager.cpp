@@ -33,7 +33,12 @@ bool Tools::SaveManager::KeyExists(const string& _key) const
 Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) const
 {
 	DynamicArray<int> _result = DynamicArray<int>();
+<<<<<<< Updated upstream
 	FileStream _fs = GetStream(ios_base::in);
+=======
+	FileStream _fs = GetStream(ios_base::in | ios_base::out);
+	_fs.Uncrypt();
+>>>>>>> Stashed changes
 	unsigned int _index = 0, _line = 0;
 
 	string _lineValue = _fs.ReadLine(0);
@@ -46,7 +51,11 @@ Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) con
 			return _result;
 		}
 		_line++;
+<<<<<<< Updated upstream
 		_index += static_cast<u_int>(_lineValue.size()) + 1;
+=======
+		_index += static_cast<int>(_lineValue.size()) + 1;
+>>>>>>> Stashed changes
 		_lineValue = _fs.ReadLine(_line);
 	}
 	_result.Add(-1);
@@ -57,7 +66,7 @@ Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) con
 
 Tools::FileStream Tools::SaveManager::GetStream(const int _openmode) const
 {
-	return FileStream(path, false, (encryptionKey ? *encryptionKey : ""), encryptionKey, ios_base::binary | _openmode);
+	return FileStream(path, false, (encryptionKey ? *encryptionKey : to_string(char(0))), true, ios_base::binary | _openmode);
 }
 
 bool Tools::SaveManager::FileExists() const

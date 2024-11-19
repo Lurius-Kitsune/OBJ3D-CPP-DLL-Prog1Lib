@@ -44,14 +44,24 @@ namespace Tools
 		{
 			const string& _sData = _key + ":" + Convert<T, string>(_data) + "\n";
 			FileStream _fs = GetStream(ios_base::in | ios_base::out);
+<<<<<<< Updated upstream
 			if (encryptionKey) _fs.Uncrypt();
+=======
+			_fs.Uncrypt();
+>>>>>>> Stashed changes
 			if (KeyExists(_key))
 			{
 				DynamicArray<int> _keyPos = GetKeyIndex(_key);
 				_fs.RemoveLine(GetKeyIndex(_key)[1]);
 			}
+<<<<<<< Updated upstream
 			if (encryptionKey) _fs.Crypt();
 			_fs.Write(_sData);
+=======
+			_fs.Write(_sData);
+			_fs.Crypt();
+
+>>>>>>> Stashed changes
 		}
 		 
 		/// <summary>
@@ -63,6 +73,7 @@ namespace Tools
 		template<typename T>
 		T GetData(const string& _key)
 		{
+<<<<<<< Updated upstream
 			FileStream _fw;
 			if (encryptionKey)
 			{
@@ -72,6 +83,14 @@ namespace Tools
 			if (!KeyExists(_key)) throw exception("Key doesn't exist");
 			FileStream _fs = GetStream(ios_base::in);
 			string _lineValue = _fs.ReadLine(GetKeyIndex(_key)[1]);
+=======
+			FileStream _fw = GetStream(ios_base::in | ios_base::out);
+			_fw.Uncrypt();
+			if (!KeyExists(_key)) throw exception("Key doesn't exist");
+
+
+			string _lineValue = _fw.ReadLine(GetKeyIndex(_key)[1]);
+>>>>>>> Stashed changes
 
 			DynamicArray<string> _tokens = SplitString(_lineValue, ":");
 			unsigned int _contentParts = _tokens.GetSize();
@@ -81,7 +100,11 @@ namespace Tools
 			{
 				_totalContent += string(_i > 1 ? ":" : "") + _tokens[_i];
 			} // Tout ça au cas où la chaîne récupérée contient le symbole :
+<<<<<<< Updated upstream
 			if (encryptionKey) _fw.Crypt();
+=======
+			_fw.Crypt();
+>>>>>>> Stashed changes
 			return Convert<string, T>(_totalContent);
 		}
 
