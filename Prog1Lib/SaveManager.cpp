@@ -60,7 +60,7 @@ Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) con
 
 Tools::FileStream Tools::SaveManager::GetStream(const int _openmode) const
 {
-	return FileStream(path, false, (encryptionKey ? *encryptionKey : " "), true, ios_base::binary | _openmode);
+	return FileStream(path, false, (encryptionKey ? *encryptionKey : "\0"), true, ios_base::binary | _openmode);
 }
 
 bool Tools::SaveManager::FileExists() const

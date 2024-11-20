@@ -67,7 +67,7 @@ namespace Tools
 		template<typename T>
 		T GetData(const string& _key)
 		{
-			FileStream* _decrypt = new FileStream(path, false, (encryptionKey ? *encryptionKey : " "), true, ios_base::binary | ios_base::in | ios_base::out);
+			FileStream* _decrypt = new FileStream(path, false, (encryptionKey ? *encryptionKey : "\0"), true, ios_base::binary | ios_base::in | ios_base::out);
 			_decrypt->Uncrypt();
 			delete _decrypt;
 
