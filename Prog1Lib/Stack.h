@@ -192,7 +192,7 @@ namespace Tools
 		{
 			Add(_value);
 		}
-		void operator += (LinkedList<Type> _linkedList)
+		void operator += (Stack<Type> _linkedList)
 		{
 			Node<Type>* _currentNode = _linkedList.first;
 			while (_currentNode)
@@ -208,7 +208,7 @@ namespace Tools
 				Add(_value);
 			}
 		}
-		void operator = (LinkedList<Type> _linkedList)
+		void operator = (Stack<Type> _linkedList)
 		{
 			Clear();
 			Node<Type>* _currentNode = _linkedList.first;
@@ -255,7 +255,7 @@ namespace Tools
 				Remove();
 			}
 		}
-		friend ostream& operator << (ostream& _stream, const LinkedList<Type>& _object)
+		friend ostream& operator << (ostream& _stream, const Stack<Type>& _object)
 		{
 			Node<Type>* _currentNode = _object.first;
 			u_int _index = 0;
