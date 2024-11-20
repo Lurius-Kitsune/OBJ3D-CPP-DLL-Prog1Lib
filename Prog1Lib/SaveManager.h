@@ -71,7 +71,7 @@ namespace Tools
 			_decrypt->Uncrypt();
 			delete _decrypt;
 
-			FileStream* _write = new FileStream(path, false, *encryptionKey, true, ios_base::binary | ios_base::in | ios_base::out);
+			FileStream* _write = new FileStream(path, false, *encryptionKey, false, ios_base::binary | ios_base::in | ios_base::out);
 			if (!KeyExists(_key))
 			{
 				_write->Crypt();
@@ -98,8 +98,7 @@ namespace Tools
 
 			delete _write;
 
-			FileStream* _crypt = new FileStream(path, false, *encryptionKey, true, ios_base::binary | ios_base::out | ios_base::in);
-			_crypt->Write("uwu");
+			FileStream* _crypt = new FileStream(path, false, *encryptionKey, false, ios_base::binary | ios_base::out | ios_base::in);
 			_crypt->Crypt();
 			delete _crypt;
 

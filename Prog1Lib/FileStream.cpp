@@ -89,7 +89,7 @@ bool Tools::FileStream::Clear()
 	if (ComputeLenghOfFile() == 0) return false;
 	return Remove(ComputeLenghOfFile(), 0);;
 }
-
+	
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
 	if (isCrypt)
@@ -129,9 +129,9 @@ streampos Tools::FileStream::GetOffset(const u_int& _horizontal, const u_int& _v
 streampos Tools::FileStream::ComputeLenghOfFile()
 {
 
-	stream.seekp(0, stream.end);
+	stream.seekg(0, stream.end);
 	const streampos& _lengh = stream.tellg();
-	stream.seekp(0);
+	stream.seekg(0);
 	return _lengh;
 }
 

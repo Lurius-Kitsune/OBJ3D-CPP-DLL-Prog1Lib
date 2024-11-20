@@ -121,5 +121,5 @@ void TestSave()
 	_sm.SaveData("chepa", 100);
 	_sm.SaveData("feur", 1);
 	_sm.SaveData("toucher", bool(true));
-	cout << _sm.GetData<int>("feur");
+	cout << _sm.GetData<string>("test");
 }
