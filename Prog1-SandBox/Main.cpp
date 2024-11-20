@@ -116,10 +116,10 @@ void TestEncryptDecrypt()
 
 void TestSave()
 {
-	SaveManager _sm = SaveManager("Truc.txt");
+	SaveManager _sm = SaveManager("Truc.txt", "zizi");
 	_sm.SaveData("test", string("truc"));
 	_sm.SaveData("chepa", 100);
 	_sm.SaveData("feur", 1);
 	_sm.SaveData("toucher", bool(true));
-	cout << _sm.GetData<int>(string("feur"));
+	cout << _sm.GetData<int>("feur");
 }

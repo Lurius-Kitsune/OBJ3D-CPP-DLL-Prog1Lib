@@ -1,0 +1,5 @@
+test:truc
+chepa:100
+feur:1
+toucher:true
+пап
