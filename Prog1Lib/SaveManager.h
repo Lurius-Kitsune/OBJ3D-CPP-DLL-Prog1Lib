@@ -67,8 +67,11 @@ namespace Tools
 			
 			FileStream _fw = GetStream(ios_base::in | ios_base::out);
 			_fw.Uncrypt();
-			if (!KeyExists(_key)) throw exception("Key doesn't exist");
-
+			if (!KeyExists(_key))
+			{
+				_fw.Crypt();
+				throw exception("Key doesn't exist");
+			}
 
 			string _lineValue = _fw.ReadLine(GetKeyIndex(_key)[1]);
 

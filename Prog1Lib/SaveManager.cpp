@@ -33,7 +33,6 @@ bool Tools::SaveManager::KeyExists(const string& _key) const
 Tools::DynamicArray<int> Tools::SaveManager::GetKeyIndex(const string& _key) const
 {
 	DynamicArray<int> _result = DynamicArray<int>();
-	FileStream _fs = GetStream(ios_base::in);
 	FileStream _fs = GetStream(ios_base::in | ios_base::out);
 	_fs.Uncrypt();
 	unsigned int _index = 0, _line = 0;
