@@ -8,6 +8,7 @@
 
 #include "Macro.h"
 #include <fstream> // fichier
+#include <sstream> 
 
 #pragma warning(disable : 4251)
 
@@ -23,10 +24,11 @@ namespace Tools
 		ios_base::openmode openMode;
 
 	public:
-		string GetFullPath()const
+		inline string GetFullPath() const
 		{
 			return fullPath;
 		}
+
 
 	public:
 
@@ -64,9 +66,13 @@ namespace Tools
 			return fullPath == _file.fullPath;
 		}
 
+		void operator << (const ostringstream& _stream)
+		{
+			stream.write(_stream.str().c_str(), _stream.str().size());
+		}
 
 		// Afficher un nombre n de lignes à partir d'un index
-		string* ReadAll();
+		ostringstream ReadAll();
 
 		string Read(const streamsize& _length, const streampos& _position = -1);
 

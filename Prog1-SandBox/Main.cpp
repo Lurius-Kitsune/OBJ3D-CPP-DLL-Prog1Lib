@@ -117,9 +117,9 @@ void TestEncryptDecrypt()
 void TestSave()
 {
 	SaveManager _sm = SaveManager("Truc.txt", "zizi");
-	_sm.SaveData("test", string("truc"));
-	_sm.SaveData("chepa", 100);
-	_sm.SaveData("feur", 1);
-	_sm.SaveData("toucher", bool(true));
+	_sm.SaveData<string>("test", "truc");
+	//_sm.SaveData("chepa", 100);
+	//_sm.SaveData("feur", 1);
+	//_sm.SaveData("toucher", true);
 	cout << _sm.GetData<string>("test");
 }

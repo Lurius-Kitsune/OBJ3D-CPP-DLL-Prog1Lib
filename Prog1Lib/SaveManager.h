@@ -17,6 +17,11 @@
 #include "FileStream.h"
 #include "DynamicArray.h"
 
+#define if_c if constexpr
+
+#define CRYPT if(encryptionKey) _stream.Crypt()
+#define UNCRYPT if(encryptionKey) _stream.Uncrypt()
+
 using namespace std;
 
 typedef ios_base ib;
@@ -42,20 +47,16 @@ namespace Tools
 		template<typename T>
 		void SaveData(const string& _key, const T& _data)
 		{
-			const string& _sData = _key + ":" + Convert<T, string>(_data) + "\n";
 			FileStream _fs = GetStream(ios_base::in | ios_base::out);
-			_fs.Uncrypt();
+			const string& _sData = _key + ":" + Convert<T, string>(_data) + "\n";
+			UNCRYPT;
 			if (KeyExists(_key))
 			{
 				DynamicArray<int> _keyPos = GetKeyIndex(_key);
 				_fs.RemoveLine(GetKeyIndex(_key)[1]);
 			}
 			_fs.Write(_sData);
-			_fs.Crypt();
-
-
-			//FileStream _file = FileStream(path, encryptionKey, *encryptionKey);
-			//_file.Crypt();
+			CRYPT;
 		}
 		 
 		/// <summary>
@@ -67,21 +68,45 @@ namespace Tools
 		template<typename T>
 		T GetData(const string& _key)
 		{
-			FileStream* _decrypt = new FileStream(path, false, (encryptionKey ? *encryptionKey : "\0"), true, ios_base::binary | ios_base::in | ios_base::out);
-			_decrypt->Uncrypt();
-			delete _decrypt;
+			//FileStream* _decrypt = new FileStream(path, false, (encryptionKey ? *encryptionKey : "\0"), encryptionKey, ios_base::binary | ios_base::in | ios_base::out);
+			//if(encryptionKey) _decrypt->Uncrypt();
+			//delete _decrypt;
 
-			FileStream* _write = new FileStream(path, false, *encryptionKey, false, ios_base::binary | ios_base::in | ios_base::out);
+			//FileStream* _write = new FileStream(path, false, *encryptionKey, false, ios_base::binary | ios_base::in | ios_base::out);
+			//if (!KeyExists(_key))
+			//{
+			//	_write->Crypt();
+			//	delete _write;
+			//	throw exception("Key doesn't exist");
+			//}
+			//string _lineValue = _write->ReadLine(GetKeyIndex(_key)[1]);
+			//ostringstream _content = _write->ReadAll();
+			//DynamicArray<string> _tokens = SplitString(_lineValue, ":");
+			//unsigned int _contentParts = _tokens.GetSize();
+			//string _totalContent = "";
+
+			//for (unsigned int _i = 1; _i < _contentParts; _i++)
+			//{
+			//	_totalContent += string(_i > 1 ? ":" : "") + _tokens[_i];
+			//} // Tout ça au cas où la chaîne récupérée contient le symbole :
+			//
+
+			//delete _write;
+
+ 		//	FileStream* _crypt = new FileStream(path, false, *encryptionKey, false, ios_base::out | ios_base::in);
+			//_crypt->Clear();
+			//*_crypt << _content;
+			//if(encryptionKey) _crypt->Crypt();
+			//delete _crypt;
+
+			FileStream _stream = GetStream(ios_base::out | ios_base::in);
+			UNCRYPT;
 			if (!KeyExists(_key))
 			{
-				_write->Crypt();
-				delete _write;
+				CRYPT; _stream.Crypt();
 				throw exception("Key doesn't exist");
 			}
-			ostringstream _buffer;
-			_buffer << _write->ReadAll()->c_str();
-			string _lineValue = _write->ReadLine(GetKeyIndex(_key)[1]);
-
+			string _lineValue = _stream.ReadLine(GetKeyIndex(_key)[1]);
 			DynamicArray<string> _tokens = SplitString(_lineValue, ":");
 			unsigned int _contentParts = _tokens.GetSize();
 			string _totalContent = "";
@@ -91,16 +116,7 @@ namespace Tools
 				_totalContent += string(_i > 1 ? ":" : "") + _tokens[_i];
 			} // Tout ça au cas où la chaîne récupérée contient le symbole :
 			
-
-			/*FileStream* _crypt = new FileStream(path, false, *encryptionKey, true, ios_base::binary | ios_base::in | ios_base::out);
-			cout << "cr ? " << _crypt->Crypt() << endl;
-			delete _crypt;*/
-
-			delete _write;
-
-			FileStream* _crypt = new FileStream(path, false, *encryptionKey, false, ios_base::binary | ios_base::out | ios_base::in);
-			_crypt->Crypt();
-			delete _crypt;
+			CRYPT;
 
 			return Convert<string, T>(_totalContent);
 		}
@@ -130,7 +146,7 @@ namespace Tools
 		/// </summary>
 		/// <param name="_openmode">Mode d'écriture</param>
 		/// <returns>FileStream</returns>
-		FileStream GetStream(const int _openmode) const;
+		inline FileStream GetStream(const int _openmode) const;
 
 		/// <summary>
 		/// Récupérer l'index de la clé et la ligne sur laquelle elle se trouve
@@ -155,23 +171,27 @@ namespace Tools
 		/// <param name="_input">Valeur</param>
 		/// <returns>Valeur en type attendu</returns>
 		template<typename Input, typename Result>
-		Result Convert(const Input& _input) const // "constexpr" sert à dire au compilateur qu'il doit analyser les chemins (les if), sinon il dit qu'il y'a une erreur car ce con pense
-		{											// que t'essayes de convertir des types en de la merde. 
+		Result Convert(const Input& _input) const
+		{
+			cout << is_same<Input, Result>::value << endl;
 
-			if constexpr (is_same<Input, Result>::value) return _input;
+			// Si les types sont identiques
+			if_c(is_same<Input, Result>::value) return _input;
 
-			if constexpr (is_same<Input, string>::value) // Si la valeur d'entrée est un string
-			{
-				if constexpr (is_same<Result, int>::value) return std::stoi(_input);
-				else if constexpr (is_same<Result, bool>::value) return (_input == "true\r");
-				else if constexpr (is_same<Result, char>::value) return _input[0];
+			// Si l'entrée est un string
+			if_c(is_same<Input, string>::value) return static_cast<Result>(_input);
+
+			// Si l'entrée est un tableau de caractères (char[])
+			if_c(is_same<Input, char*>::value) {
+				return static_cast<Result>(string(_input)); // Convertit const char[] en std::string
 			}
-			else if constexpr (is_same<Input, int>::value) return to_string(_input);
-			else if constexpr (is_same<Input, bool>::value) return (_input ? "true" : "false");
-			else if constexpr (is_same<Input, char>::value) return _input[0];
+
+			// Si l'entrée est un type arithmétique (comme int, float)
+			if_c(is_arithmetic_v<Input>) return to_string(_input);
 
 			throw exception("Unable to convert type");
 		}
+
 
 	};
 }

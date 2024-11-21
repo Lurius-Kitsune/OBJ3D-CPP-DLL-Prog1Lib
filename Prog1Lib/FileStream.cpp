@@ -18,15 +18,15 @@ Tools::FileStream::FileStream(const string& _fullPath, const bool _autoCreate,
 	stream = fstream(_fullPath, openMode);
 }
 
-string* Tools::FileStream::ReadAll()
+ostringstream Tools::FileStream::ReadAll()
 {
 	const u_int& _fileSize = ComputeLineOfFile();
-	string* _contents = new string[_fileSize];
+	ostringstream _content;
 	for (u_int _i = 0; _i < _fileSize; _i++)
 	{
-		_contents[_i] = ReadLine(static_cast<u_int>(GetOffset(0, _i)));
+		_content << ReadLine(static_cast<u_int>(GetOffset(0, _i)));
 	}
-	return _contents;
+	return _content;
 }
 
 string Tools::FileStream::Read(const streamsize& _length, const streampos& _position)
