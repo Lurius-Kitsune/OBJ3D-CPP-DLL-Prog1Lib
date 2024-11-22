@@ -88,7 +88,7 @@ namespace Tools
 			{
 				_totalContent += string(_i > 1 ? ":" : "") + _tokens[_i];
 			} // Tout ça au cas où la chaîne récupérée contient le symbole :
-			
+ 
 			CRYPT;
 
 			return Convert<string, T>(_totalContent);
@@ -168,6 +168,9 @@ namespace Tools
 			if_c(is_same<Input, char*>::value) {
 				return static_cast<Result>(string(_input)); // Convertit const char[] en std::string
 			}
+			else if constexpr (is_same<Input, int>::value) return to_string(_input);
+			else if constexpr (is_same<Input, bool>::value) return (_input ? "true" : "false");
+			else if constexpr (is_same<Input, char>::value) return _input[0];
 
 			throw exception("Unable to convert type");
 		}
