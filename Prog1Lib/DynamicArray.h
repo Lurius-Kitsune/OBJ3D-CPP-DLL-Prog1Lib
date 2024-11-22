@@ -10,8 +10,9 @@ typedef unsigned int u_int;
 using namespace std; 
 namespace Tools
 {
+
 	template<class T>
-	class DynamicArray
+	class [[deprecated("Veuillez utiliser les collections")]] DynamicArray
 	{
 		T* tab;
 		u_int size;
@@ -160,7 +161,7 @@ namespace Tools
 	};
 
 	template<class T>
-	class DynamicArray<T*>
+	class [[deprecated("Veuillez utiliser les collections")]] DynamicArray<T*>
 	{
 		T** tab;
 		u_int size;

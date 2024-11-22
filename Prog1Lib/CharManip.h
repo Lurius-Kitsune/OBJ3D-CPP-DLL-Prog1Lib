@@ -1,6 +1,7 @@
 #pragma once
 #include "DynamicArray.h"
 #include <string>
+#include <vector>
 
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)
@@ -26,7 +27,7 @@ namespace Tools
 	/// <returns>Caractère majuscule si c'est une lettre, sinon juste le caractère</returns>
 	MYTOOL_API char ToUpper(char _char);
 
-	MYTOOL_API DynamicArray<string> SplitString(const string& _phrase, const char _separator);
+	MYTOOL_API vector<string> SplitString(const string& _phrase, const char _separator);
 
 	/// <summary>
 	/// Met le character en minuscule

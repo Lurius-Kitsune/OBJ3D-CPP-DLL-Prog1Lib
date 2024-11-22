@@ -23,16 +23,16 @@ MYTOOL_API char Tools::ToUpper(char _char)
 	return _char;
 }
 
-MYTOOL_API Tools::DynamicArray<string> Tools::SplitString(const string& _phrase, const char _separator)
+MYTOOL_API vector<string> Tools::SplitString(const string& _phrase, const char _separator)
 {
 	const size_t& _length = _phrase.length();
-	DynamicArray<string> _splitString = DynamicArray<string>();
+	vector<string> _splitString = vector<string>();
 	string _word = "";
 	for (u_int _i = 0; _i < _length; _i++)
 	{
 		if (_phrase[_i] == _separator)
 		{
-			_splitString.Add(_word);
+			_splitString.push_back(_word);
 			_word = "";
 			continue;
 		}
