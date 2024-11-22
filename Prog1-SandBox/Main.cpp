@@ -5,6 +5,8 @@
 #include "CharManip.h"
 #include "SaveManager.h"
 
+#pragma warning(disable : 4996)
+
 using namespace std;
 using namespace Tools;
 
@@ -69,7 +71,7 @@ void TestDynamicArray()
 void TestCharManip()
 {
 	string _phrase = "Je suis bob";
-	DynamicArray<string> _splitPhrase = SplitString(_phrase, char(32));
+	vector<string> _splitPhrase = SplitString(_phrase, char(32));
 	string _lowerPhrase = ToLowerString(_phrase);
 	string _lowerUpper = ToUpperString(_phrase);
 

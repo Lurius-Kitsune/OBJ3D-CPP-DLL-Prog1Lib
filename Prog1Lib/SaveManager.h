@@ -111,6 +111,7 @@ namespace Tools
 		/// </summary>
 		/// <param name="_key">Clé</param>
 		/// <returns>DynamicArray<int> (0 : index | 1 : ligne) | -1 si non trouvée</returns>
+		#pragma warning(suppress : 4996)
 		DynamicArray<int> GetKeyIndex(const string& _key) const;
 		
 		/// <summary>
@@ -119,6 +120,7 @@ namespace Tools
 		/// <param name="_text">string : à split</param>
 		/// <param name="_separator">char : sur quoi split</param>
 		/// <returns>vector : tableau de string</returns>
+		#pragma warning(suppress : 4996)
 		DynamicArray<string> SplitString(const string& _text, const char* _separator) const;
 
 		/// <summary>
