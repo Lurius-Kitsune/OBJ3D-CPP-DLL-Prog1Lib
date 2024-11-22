@@ -14,7 +14,8 @@ namespace Tools
     #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
     #define CLEAR_CIN cin.clear(); \
-                cin.ignore((numeric_limits<streamsize>::max)(), '\n');
+                cin.ignore((numeric_limits<streamsize>::max)(), '\n'); \
+                cin.seekg(cin.beg);
 
     #define DISPLAY(_value, _makeEndl) cout << _value; \
                                        if (_makeEndl) cout << endl;
