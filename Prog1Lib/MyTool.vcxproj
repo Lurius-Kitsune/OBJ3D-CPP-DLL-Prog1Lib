@@ -140,17 +140,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CharManip.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DisplaySystem.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="DynamicArray.h" />
+    <ClInclude Include="SaveManager.h" />
     <ClInclude Include="UserInteract.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CharManip.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DisplaySystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -162,6 +166,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="UserInteract.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

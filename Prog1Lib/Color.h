@@ -33,6 +33,8 @@ namespace Tools
 		#define HIDDEN_TEXT "\033[8m"				// Masqu�
 		#define DOUBLE_UNDERLINE_TEXT "\033[21m"	// Double soulign�e
 
+		#define BLINK_COLOR(x) "\033[5m" << x		// Clignotant
+
 		// Resets
 		#define RESET "\033[0m"
 		#define RESET_BOLD "\033[22m"
@@ -63,6 +65,16 @@ namespace Tools
 		#define MAGENTA "\x1B[38;5;199m"
 		#define PURPLE "\x1B[38;5;99m"
 		#define BROWN "\x1B[38;5;130m"
+
+		//Base Colors
+		#define BLACK_BASE "\u001b[30m"
+		#define RED_BASE "\u001b[31m"
+		#define GREEN_BASE "\u001b[32m"
+		#define YELLOW_BASE "\u001b[33m"
+		#define BLUE_BASE "\u001b[34m"
+		#define PURPLE_BASE "\u001b[35m"
+		#define CYAN_BASE "\u001b[36m"
+		#define WHITE_BASE "\u001b[37m"
 
 		// Background colors
 		#define BG_BLACK "\x1B[48;5;232m"
