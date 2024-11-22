@@ -102,7 +102,7 @@
       <Filter>Source Files\File</Filter>
     </ClCompile>
     <ClCompile Include="DirectoryManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\File</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
