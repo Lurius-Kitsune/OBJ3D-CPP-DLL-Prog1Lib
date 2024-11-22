@@ -18,15 +18,15 @@ Tools::FileStream::FileStream(const string& _fullPath, const bool _autoCreate,
 	stream = fstream(_fullPath, openMode);
 }
 
-string* Tools::FileStream::ReadAll()
+ostringstream Tools::FileStream::ReadAll()
 {
 	const u_int& _fileSize = ComputeLineOfFile();
-	string* _contents = new string[_fileSize];
+	ostringstream _content;
 	for (u_int _i = 0; _i < _fileSize; _i++)
 	{
-		_contents[_i] = ReadLine(static_cast<u_int>(GetOffset(0, _i)));
+		_content << ReadLine(static_cast<u_int>(GetOffset(0, _i)));
 	}
-	return _contents;
+	return _content;
 }
 
 string Tools::FileStream::Read(const streamsize& _length, const streampos& _position)
@@ -40,6 +40,7 @@ string Tools::FileStream::Read(const streamsize& _length, const streampos& _posi
 		stream.seekg(_position);
 	}
 	stream.read(&_content[0], _length);
+
 	return _content;
 }
 
@@ -78,7 +79,7 @@ bool Tools::FileStream::Remove(const streamsize& _length, const streampos& _posi
 	_write << _content;
 	_write.close();
 
-	stream.open(fullPath, openMode);
+	stream = fstream(fullPath, openMode);
 
 	return stream.good();
 }
@@ -88,7 +89,7 @@ bool Tools::FileStream::Clear()
 	if (ComputeLenghOfFile() == 0) return false;
 	return Remove(ComputeLenghOfFile(), 0);;
 }
-
+	
 bool Tools::FileStream::Write(const string& _content, const streampos& _position)
 {
 	if (isCrypt)
@@ -128,9 +129,9 @@ streampos Tools::FileStream::GetOffset(const u_int& _horizontal, const u_int& _v
 streampos Tools::FileStream::ComputeLenghOfFile()
 {
 
-	stream.seekp(0, stream.end);
+	stream.seekg(0, stream.end);
 	const streampos& _lengh = stream.tellg();
-	stream.seekp(0);
+	stream.seekg(0);
 	return _lengh;
 }
 
@@ -190,6 +191,10 @@ bool Tools::FileStream::Write(const char* _content, const streamsize& _lengh, co
 	{
 		stream.write(_remainingContent.c_str(), _remainingContent.size());
 	}
+
+	stream.close();
+	stream.open(fullPath, openMode);
+
 	return stream.good();
 }
 

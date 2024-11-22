@@ -14,6 +14,7 @@ void TestDynamicArray();
 void TestCharManip();
 void TestOptimiseRandom();
 void TestEncryptDecrypt();
+void TestSave();
 
 class Bob
 {
@@ -38,10 +39,11 @@ int main()
 {
     Config();
     
-	TestDynamicArray();
-	TestCharManip();
-	TestOptimiseRandom();
-	TestEncryptDecrypt();
+	//TestDynamicArray();
+	//TestCharManip();
+	//TestOptimiseRandom();
+	//TestEncryptDecrypt();
+	TestSave();
 	return -1;
 }
 
@@ -116,6 +118,13 @@ void TestEncryptDecrypt()
 
 void TestSave()
 {
-	SaveManager _sm = SaveManager("uwu.txt");
-	cout << _sm.GetData<string>("ddfefdefd");
+	SaveManager _sm = SaveManager("Truc.txt", "zizi");
+	_sm.SaveData<string>("test", "trudc");
+	_sm.SaveData<string>("ddd", "d");
+	_sm.SaveData<string>("sd", "dfeef");
+	_sm.SaveData<string>("sdd", "dfeef");
+	_sm.SaveData<bool>("feur", true);
+	cout << _sm.GetData<string>("test") << endl;
+	cout << _sm.GetData<bool>("feur") << endl;
+
 }
