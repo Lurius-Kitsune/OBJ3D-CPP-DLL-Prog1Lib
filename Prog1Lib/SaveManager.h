@@ -14,6 +14,8 @@
 #include <stdexcept>
 #include <type_traits>
 
+#include <vector>
+
 #include "FileStream.h"
 #include "DynamicArray.h"
 
@@ -47,15 +49,17 @@ namespace Tools
 		template<typename T>
 		void SaveData(const string& _key, const T& _data)
 		{
-			FileStream _fs = GetStream(ios_base::in | ios_base::out);
+			FileStream _stream = GetStream(ios_base::in | ios_base::out);
 			const string& _sData = _key + ":" + Convert<T, string>(_data) + "\n";
 			UNCRYPT;
 			if (KeyExists(_key))
 			{
-				DynamicArray<int> _keyPos = GetKeyIndex(_key);
-				_fs.RemoveLine(GetKeyIndex(_key)[1]);
+				vector<int> _keyPos = GetKeyIndex(_key);
+				_stream.RemoveLine(GetKeyIndex(_key)[1]);
 			}
-			_fs.Write(_sData);
+			FileStream _add = GetStream(ios_base::app);
+			_add.SetIsCryptFile(false);
+			_add.Write(_sData);
 			CRYPT;
 		}
 		 
@@ -68,47 +72,16 @@ namespace Tools
 		template<typename T>
 		T GetData(const string& _key)
 		{
-			//FileStream* _decrypt = new FileStream(path, false, (encryptionKey ? *encryptionKey : "\0"), encryptionKey, ios_base::binary | ios_base::in | ios_base::out);
-			//if(encryptionKey) _decrypt->Uncrypt();
-			//delete _decrypt;
-
-			//FileStream* _write = new FileStream(path, false, *encryptionKey, false, ios_base::binary | ios_base::in | ios_base::out);
-			//if (!KeyExists(_key))
-			//{
-			//	_write->Crypt();
-			//	delete _write;
-			//	throw exception("Key doesn't exist");
-			//}
-			//string _lineValue = _write->ReadLine(GetKeyIndex(_key)[1]);
-			//ostringstream _content = _write->ReadAll();
-			//DynamicArray<string> _tokens = SplitString(_lineValue, ":");
-			//unsigned int _contentParts = _tokens.GetSize();
-			//string _totalContent = "";
-
-			//for (unsigned int _i = 1; _i < _contentParts; _i++)
-			//{
-			//	_totalContent += string(_i > 1 ? ":" : "") + _tokens[_i];
-			//} // Tout ça au cas où la chaîne récupérée contient le symbole :
-			//
-
-			//delete _write;
-
- 		//	FileStream* _crypt = new FileStream(path, false, *encryptionKey, false, ios_base::out | ios_base::in);
-			//_crypt->Clear();
-			//*_crypt << _content;
-			//if(encryptionKey) _crypt->Crypt();
-			//delete _crypt;
-
 			FileStream _stream = GetStream(ios_base::out | ios_base::in);
 			UNCRYPT;
 			if (!KeyExists(_key))
 			{
-				CRYPT; _stream.Crypt();
+				CRYPT;
 				throw exception("Key doesn't exist");
 			}
 			string _lineValue = _stream.ReadLine(GetKeyIndex(_key)[1]);
-			DynamicArray<string> _tokens = SplitString(_lineValue, ":");
-			unsigned int _contentParts = _tokens.GetSize();
+			vector<string> _tokens = SplitString(_lineValue, ":");
+			unsigned int _contentParts = _tokens.size();
 			string _totalContent = "";
 
 			for (unsigned int _i = 1; _i < _contentParts; _i++)
@@ -153,7 +126,7 @@ namespace Tools
 		/// </summary>
 		/// <param name="_key">Clé</param>
 		/// <returns>DynamicArray<int> (0 : index | 1 : ligne) | -1 si non trouvée</returns>
-		DynamicArray<int> GetKeyIndex(const string& _key) const;
+		vector<int> GetKeyIndex(const string& _key) const;
 		
 		/// <summary>
 		/// Méthode pour recréer le split d'un string
@@ -161,7 +134,7 @@ namespace Tools
 		/// <param name="_text">string : à split</param>
 		/// <param name="_separator">char : sur quoi split</param>
 		/// <returns>vector : tableau de string</returns>
-		DynamicArray<string> SplitString(const string& _text, const char* _separator) const;
+		vector<string> SplitString(const string& _text, const char* _separator) const;
 
 		/// <summary>
 		/// Convertisseur entre types
@@ -173,21 +146,28 @@ namespace Tools
 		template<typename Input, typename Result>
 		Result Convert(const Input& _input) const
 		{
-			cout << is_same<Input, Result>::value << endl;
-
 			// Si les types sont identiques
 			if_c(is_same<Input, Result>::value) return _input;
 
-			// Si l'entrée est un string
-			if_c(is_same<Input, string>::value) return static_cast<Result>(_input);
+			// Si l'entrée est un type arithmétique (comme int, float)
+			if_c(is_arithmetic_v<Input>) return to_string(_input);
+
+			// Si le Résultat est arithmétique et que l'input est une chaîne de caractère
+			if_c(is_same_v<Input, string> || is_same_v<Input, const char*>) {
+				if_c(is_arithmetic_v<Result>) {
+					istringstream iss(_input);
+					Result result;
+					if (!(iss >> result)) {
+						throw runtime_error("Conversion failed: invalid input string for numeric conversion.");
+					}
+					return result;
+				}
+			}
 
 			// Si l'entrée est un tableau de caractères (char[])
 			if_c(is_same<Input, char*>::value) {
 				return static_cast<Result>(string(_input)); // Convertit const char[] en std::string
 			}
-
-			// Si l'entrée est un type arithmétique (comme int, float)
-			if_c(is_arithmetic_v<Input>) return to_string(_input);
 
 			throw exception("Unable to convert type");
 		}

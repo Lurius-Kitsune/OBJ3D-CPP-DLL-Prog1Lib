@@ -192,6 +192,9 @@ bool Tools::FileStream::Write(const char* _content, const streamsize& _lengh, co
 		stream.write(_remainingContent.c_str(), _remainingContent.size());
 	}
 
+	stream.close();
+	stream.open(fullPath, openMode);
+
 	return stream.good();
 }
 
