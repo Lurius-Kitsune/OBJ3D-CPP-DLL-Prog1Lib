@@ -143,6 +143,7 @@
     <ClInclude Include="CharManip.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="DisplaySystem.h" />
+    <ClInclude Include="DirectoryManager.h" />
     <ClInclude Include="FileStream.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Macro.h" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="CharManip.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DirectoryManager.cpp" />
     <ClCompile Include="DisplaySystem.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="FileStream.cpp" />
