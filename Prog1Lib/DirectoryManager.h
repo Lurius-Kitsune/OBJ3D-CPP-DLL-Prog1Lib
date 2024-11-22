@@ -1,9 +1,12 @@
 #pragma once
 #pragma warning(disable : 4244)
+#pragma warning(disable : 4251)
+
 #include <iostream>
 #include <windows.h> 
 #include <utility>
 #include <vector>
+#include <string>
 #include <codecvt>
 #include <string>
 
@@ -15,7 +18,7 @@
 
 using namespace std;
 
-class DirectoryManager
+class MYTOOL_API DirectoryManager
 {
     string directoryPath;
 public:
