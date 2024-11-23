@@ -17,7 +17,7 @@ void DirectoryManager::BrowseSubDirectory(const wstring& _pathDirectory, const w
         wstring _relativePath = _baseRelativePath + L"\\" + _element;
         if (_fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
         {
-            if (_element != L"." && _element != L"..")
+            if (_element != L"." && _element != L".." && _depthDirectory)
                 BrowseSubDirectory((_pathDirectory + L"\\" + _element), (_baseRelativePath + L"\\" + _element), _relativePaths, _depthDirectory);
         }
         else

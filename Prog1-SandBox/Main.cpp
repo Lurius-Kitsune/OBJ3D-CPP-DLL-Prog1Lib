@@ -4,6 +4,9 @@
 #include "DynamicArray.h"
 #include "CharManip.h"
 #include "SaveManager.h"
+#include "DirectoryManager.h"
+#include "Sound.h"
+
 
 using namespace std;
 using namespace Tools;
@@ -32,14 +35,25 @@ public:
 	}
 };
 
+#include <windows.h>
+#pragma comment(lib, "winmm.lib")
 int main()
 {
     Config();
     
-	TestDynamicArray();
-	TestCharManip();
-	TestOptimiseRandom();
-	TestEncryptDecrypt();
+	//TestDynamicArray();
+	//TestCharManip();
+	//TestOptimiseRandom();
+	//TestEncryptDecrypt();
+	Sound _sound1 = { "music.wav" };
+	while (!_kbhit())
+	{
+		static u_int _loopCount = 0;
+		if (_sound1.Play(true))
+		{
+			cout << "relancement n°" << _loopCount++ << endl;
+		}
+	}
 	return -1;
 }
 

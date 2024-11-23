@@ -152,6 +152,7 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="SaveManager.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="UserInteract.h" />
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +171,7 @@
     </ClCompile>
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="SaveManager.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="UserInteract.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

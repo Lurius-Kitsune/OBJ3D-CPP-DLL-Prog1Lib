@@ -66,6 +66,9 @@
     <ClInclude Include="DirectoryManager.h">
       <Filter>Header Files\File</Filter>
     </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files\File</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -103,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="DirectoryManager.cpp">
       <Filter>Source Files\File</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
