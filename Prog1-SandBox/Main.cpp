@@ -15,6 +15,7 @@ void TestDynamicArray();
 void TestCharManip();
 void TestOptimiseRandom();
 void TestEncryptDecrypt();
+void SoundTest();
 
 class Bob
 {
@@ -45,15 +46,9 @@ int main()
 	//TestCharManip();
 	//TestOptimiseRandom();
 	//TestEncryptDecrypt();
-	Sound _sound1 = { "music.wav" };
-	while (!_kbhit())
-	{
-		static u_int _loopCount = 0;
-		if (_sound1.Play(true))
-		{
-			cout << "relancement n°" << _loopCount++ << endl;
-		}
-	}
+
+	SoundTest();
+
 	return -1;
 }
 
@@ -130,4 +125,20 @@ void TestSave()
 {
 	SaveManager _sm = SaveManager("uwu.txt");
 	cout << _sm.GetData<string>("ddfefdefd");
+}
+
+void SoundTest()
+{
+	Sound _sound1 = { "music.wav" };
+	Sound _sound2 = { "sound2.wav" };
+	Playlist _myList = { _sound1 , _sound2 };
+	while (!_kbhit())
+	{
+		static u_int _loopCount = 0;
+		if (_myList.Play())
+		{
+			cout << "lancement de la musique n°" << _myList.GetCurrentSoundIndex() + 1 << ", c'est ta " << _loopCount++ << "eme musique !" << endl;
+		}
+		cout << "coucou !" << endl;
+	}
 }

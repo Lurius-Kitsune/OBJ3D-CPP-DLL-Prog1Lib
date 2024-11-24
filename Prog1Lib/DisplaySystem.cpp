@@ -26,7 +26,7 @@ DISPLAYSYSTEM_API void Tools::Console::SetCursorPosition(const u_int& _x, const 
 {
 	static const HANDLE _hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO _info;
-	std::cout.flush();
+	cout.flush();
 	_info.dwSize = 100;
 	_info.bVisible = _cursor;
 	COORD coord = { (SHORT)_x, (SHORT)_y };

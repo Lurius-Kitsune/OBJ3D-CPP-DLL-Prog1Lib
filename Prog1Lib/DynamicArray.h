@@ -44,13 +44,13 @@ namespace Tools
 
 		virtual T operator[](const int _index)
 		{
-			if (!IsValidIndex(_index)) throw std::exception("Index out of range");
+			if (!IsValidIndex(_index)) throw exception("Index out of range");
 			return tab[_index];
 		}
 
 		virtual const T& operator[](const int _index)const
 		{
-			if (!IsValidIndex(_index)) throw std::exception("Index out of range");
+			if (!IsValidIndex(_index)) throw exception("Index out of range");
 			return tab[_index];
 		}
 
@@ -197,13 +197,13 @@ namespace Tools
 
 		virtual T* operator[](const int _index)
 		{
-			if (!IsValidIndex(_index)) throw std::exception("[ERROR]index out of range");
+			if (!IsValidIndex(_index)) throw exception("[ERROR]index out of range");
 			return tab[_index];
 		}
 
 		virtual const T* operator[](const int _index)const
 		{
-			if (!IsValidIndex(_index)) throw std::exception("[ERROR]index out of range");
+			if (!IsValidIndex(_index)) throw exception("[ERROR]index out of range");
 			return tab[_index];
 		}
 

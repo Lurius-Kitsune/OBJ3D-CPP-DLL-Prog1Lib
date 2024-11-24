@@ -34,20 +34,24 @@ public:
 	
 };
 
-class Playlist
+class MYTOOL_API Playlist
 {
 	vector<Sound> soundList;
 	u_int currentMusicIndex;
 	u_int soundCount;
 public:
-	bool inline IsValidIndex(const u_int& _index) const
+	inline bool IsValidIndex(const u_int& _index) const
 	{
 		return _index >= 0 &&
 			_index < soundCount;
 	}
-	bool inline IsEmpty() const
+	inline bool IsEmpty() const
 	{
 		return soundCount == 0;
+	}
+	inline u_int GetCurrentSoundIndex() const
+	{
+		return currentMusicIndex;
 	}
 public:
 
@@ -78,6 +82,10 @@ public:
 	/// </summary>
 	/// <returns>retourne si la musique a été changer (que l'ancienne est fini)</returns>
 	bool Play();
+	/// <summary>
+	/// Passe a la musique suivante de force
+	/// </summary>
+	void Skip();
 	/// <summary>
 	/// Stop la playlist
 	/// </summary>

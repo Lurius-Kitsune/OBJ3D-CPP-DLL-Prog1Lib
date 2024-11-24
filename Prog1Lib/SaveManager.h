@@ -136,7 +136,7 @@ namespace Tools
 
 			if constexpr (is_same<Input, string>::value) // Si la valeur d'entrée est un string
 			{
-				if constexpr (is_same<Result, int>::value) return std::stoi(_input);
+				if constexpr (is_same<Result, int>::value) return stoi(_input);
 				else if constexpr (is_same<Result, bool>::value) return (_input == "true\r");
 				else if constexpr (is_same<Result, char>::value) return _input[0];
 			}

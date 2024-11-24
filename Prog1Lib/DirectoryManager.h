@@ -8,7 +8,6 @@
 #include <vector>
 #include <string>
 #include <codecvt>
-#include <string>
 
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)

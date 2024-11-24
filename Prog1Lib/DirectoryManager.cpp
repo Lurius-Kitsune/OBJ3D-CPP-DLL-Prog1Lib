@@ -44,7 +44,7 @@ vector<string> DirectoryManager::DirectoriesOfDirectory(const bool _fullDirector
     vector<string> _directories;
     HANDLE _hList;
     WIN32_FIND_DATA _fileData;
-    wstring_convert<std::codecvt_utf8_utf16<wchar_t>> _converter;
+    wstring_convert<codecvt_utf8_utf16<wchar_t>> _converter;
     wstring _pathDirectory = _converter.from_bytes(GetCurrentPathDirectory()) + L"\\" + _converter.from_bytes(directoryPath);
     wstring _fullPath = _pathDirectory + L"\\*.*";
     if ((_hList = FindFirstFile(_fullPath.c_str(), &_fileData)) == INVALID_HANDLE_VALUE)
@@ -67,7 +67,7 @@ vector<string> DirectoryManager::DirectoriesOfDirectory(const bool _fullDirector
 
 vector<string> DirectoryManager::ContentOfDirectory(const bool _depthDirectory, const bool _fullDirectory)
 {
-    wstring_convert<std::codecvt_utf8_utf16<wchar_t>> _converter;
+    wstring_convert<codecvt_utf8_utf16<wchar_t>> _converter;
     wstring _pathDirectory = _converter.from_bytes(GetCurrentPathDirectory()) + L"\\" + _converter.from_bytes(directoryPath),
             _relativeDirectoryName = _converter.from_bytes(directoryPath);
     if (_pathDirectory[_pathDirectory.size() - 1] != L'\\')
