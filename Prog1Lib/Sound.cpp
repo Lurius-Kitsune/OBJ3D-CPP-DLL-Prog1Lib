@@ -11,10 +11,10 @@ bool Sound::Play(const bool _loop)
 {
 	wstring_convert<codecvt_utf8_utf16<wchar_t>> _converter;
 	const wstring& _wPath = _converter.from_bytes(path);
-	//DWORD _soundCaracteristic = ;
-	//if (_loop)
-		//_soundCaracteristic |= SND_LOOP;
-	return PlaySound(_wPath.c_str(), NULL, SND_FILENAME | SND_ASYNC | SND_NOSTOP);
+	DWORD _soundCaracteristic = SND_FILENAME | SND_ASYNC;
+	if (_loop)
+		_soundCaracteristic |= SND_LOOP;
+	return PlaySound(_wPath.c_str(), NULL, _soundCaracteristic);
 }
 void Sound::Stop()
 {
