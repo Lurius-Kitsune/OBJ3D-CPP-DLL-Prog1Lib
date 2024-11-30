@@ -43,6 +43,7 @@ namespace Tools
 		/// <param name="_question">La question à posé</param>
 		/// <returns>Le string entrée</returns>
 		MYTOOL_API string GetLine(const string& _question = "");
+		
 
 		/// <summary>
 		/// Affiche un menu
@@ -50,20 +51,24 @@ namespace Tools
 		/// <param name="_options">La liste d'option</param>
 		/// <param name="_currentIndex">L'index de la selection actuelle</param>
 		/// <param name="_question">La question à posé</param>
+		/// <param name="_headMessage">Le message d'entete</param>
+		/// <param name="_endMessage">Le message de fin de choix</param>
+		/// <param name="_hasQuitOption">Si il a une option quitter</param>
+		/// <param name="_symbolsSelector">Les symbol de selection</param>
 		template <typename Type>
 		void DisplayMenu(const vector<Type>& _options, const int _currentIndex, const string& _question, const string& _headMessage = "",
 			const string& _endMessage = "", const bool _hasQuitOption = true, const vector<string>& _symbolsSelector = vector<string>())
 		{
 			const u_int& _size = static_cast<u_int>(_options.size());
 			DISPLAY(_question, _question.empty() ? false : true);
-			DISPLAY("==========ACTION==========", true);
+			DISPLAY(_headMessage, _headMessage.empty() ? false : true);
 			for (u_int _i = 0; _i < _size + _hasQuitOption; _i++)
 			{
 				string _firstSymbol = "", _secondSymbol = "" RESET;
 				if (_i == _currentIndex)
 				{
-					_firstSymbol = PURPLE "[";
-					_secondSymbol = PURPLE "]" RESET;
+					_firstSymbol = _symbolsSelector[0];
+					_secondSymbol = _symbolsSelector[1];
 				}
 				if (_i == _size)
 				{
@@ -73,7 +78,7 @@ namespace Tools
 
 				DISPLAY(_firstSymbol <<  _options[_i] << _secondSymbol, true);
 			}
-			DISPLAY("==========================", true);
+			DISPLAY(_endMessage, _endMessage.empty() ? false : true);
 		}
 
 		template <typename Type>
@@ -140,11 +145,11 @@ namespace Tools
 				return _currentIndex;
 				// Si la touche est fleche du haut, alors _choiceIndex--
 			case 72:
-				_currentIndex = (_currentIndex <= 0 ? _size : _currentIndex - 1);
+				_currentIndex = (_currentIndex <= 0 ? _size - 1 + _hasQuitOption : _currentIndex - 1);
 				break;
 				// Si la touche est fleche du bas, alors _choiceIndex++
 			case 80:
-				_currentIndex = (_currentIndex >= _size ? 0 : _currentIndex + 1);
+				_currentIndex = (_currentIndex >= _size - 1 + _hasQuitOption ? 0 : _currentIndex + 1);
 				break;
 			default:
 				break;
