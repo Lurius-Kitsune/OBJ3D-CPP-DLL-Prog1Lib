@@ -50,9 +50,9 @@ namespace Tools
     }
 
     template<template<typename, typename> typename Collection, typename Type, typename Alloc = allocator<Type>()>
-    Type GetRandomObjectInCollection(Collection<Type, Alloc> _collection, const u_int& _arraySize)
+    Type GetRandomObjectInCollection(Collection<Type, Alloc> _collection)
     {
-        int _randomIndex = RRandomInt(0, _collection.size() - 1);
+        int _randomIndex = RandomInt(0, _collection.size() - 1);
         return _collection[_randomIndex];
     }
 }
