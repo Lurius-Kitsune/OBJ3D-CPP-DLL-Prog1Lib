@@ -52,7 +52,7 @@ namespace Tools
 		/// <param name="_question">La question à posé</param>
 		template <typename Type>
 		void DisplayMenu(const vector<Type>& _options, const int _currentIndex, const string& _question, const string& _headMessage = "",
-			const string& _endMessage = "", const bool _hasQuitOption = true, const vector<string>& _symbolsSelector = vector<string>)
+			const string& _endMessage = "", const bool _hasQuitOption = true, const vector<string>& _symbolsSelector = vector<string>())
 		{
 			const u_int& _size = static_cast<u_int>(_options.size());
 			DISPLAY(_question, _question.empty() ? false : true);
@@ -119,7 +119,7 @@ namespace Tools
 
 	template <typename Type>
 	int OpenMenuV2(const vector<Type>& _options, const string& _question,const u_int& _startIndex = 0, const string& _headMessage = "",
-		const string& _endMessage = "", const bool _hasQuitOption = true, vector<string> _symbolsSelector = vector<string>)
+		const string& _endMessage = "", const bool _hasQuitOption = true, vector<string> _symbolsSelector = vector<string>())
 	{
 		u_int _currentIndex = _startIndex;
 		if (_symbolsSelector.size() < 2)
@@ -130,7 +130,7 @@ namespace Tools
 		while (true)
 		{
 			CLEAR_SCREEN;
-			DisplayMenu(_options, _currentIndex, _question);
+			DisplayMenu(_options, _currentIndex, _question, _headMessage, _endMessage, _hasQuitOption, _symbolsSelector);
 			// getch attend une touche
 			_input = _getch();
 			// Si la touche est entrée, alors _isChoiceMade = true
