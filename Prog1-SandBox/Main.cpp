@@ -4,6 +4,7 @@
 #include "DynamicArray.h"
 #include "CharManip.h"
 #include "SaveManager.h"
+#include "UserInteract.h"
 
 #pragma warning(disable : 4996)
 
@@ -43,6 +44,18 @@ int main()
 	//TestCharManip();
 	//TestOptimiseRandom();
 	//TestEncryptDecrypt();
+
+	vector<int> _bob =
+	{
+		1,
+		2,
+		3,
+		4,
+		5,
+		6
+	};
+	UserInteraction::OpenMenu(_bob, "BOB");
+
 	TestSave();
 	return -1;
 }
