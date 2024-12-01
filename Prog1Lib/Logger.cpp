@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Logger.h"
-#define CRYPT 
-#define UNCRYPT 
+
 
 Tools::Logger::Logger(const bool _saveGamesData, const string& _encryptionKey)
 {
@@ -10,6 +9,7 @@ Tools::Logger::Logger(const bool _saveGamesData, const string& _encryptionKey)
 	if (_saveGamesData)
 	{
 		gamesDataFile = new FileStream("GamesData.log", true, _encryptionKey, true);
+		RecoverGamesData();
 	}
 }
 
@@ -19,7 +19,7 @@ Tools::Logger::~Logger()
 }
 
 
-void Tools::Logger::RetrieveGameData()
+void Tools::Logger::RecoverGamesData()
 {
 	gamesData = multimap<string, string>();
 	gamesDataFile->Uncrypt();
@@ -32,6 +32,7 @@ void Tools::Logger::RetrieveGameData()
 		_lineValue = gamesDataFile->ReadLine(_indexLine);
 		_mapInVector = SplitString(_lineValue, ':');
 		gamesData.insert(make_pair(_mapInVector[0], _mapInVector[1]));
+		_mapInVector.clear();
 	}
 	gamesDataFile->Crypt();
 }
@@ -63,4 +64,24 @@ double Tools::Logger::AverageScore(const string& _difficulty)
 		++_count;
 	}
 	return _allScoresAdd / _count;
+}
+
+void Tools::Logger::AddStatistic(const pair<string, string>& _keyAndStatistic) const
+{
+	AddStatistic(_keyAndStatistic.first, _keyAndStatistic.second);
+}
+
+void Tools::Logger::AddStatistic(const string& _key, const string& _statistic) const
+{
+	dataManager->SaveData("ProgramStarted", _statistic);
+}
+
+void Tools::Logger::AddStatistic(const string& _key) const
+{
+	if (!dataManager->KeyExists(_key))
+	{
+		dataManager->SaveData(_key, 0);
+	}
+	int _programStarted = dataManager->GetData<int>(_key);
+	dataManager->SaveData(_key, ++_programStarted);
 }

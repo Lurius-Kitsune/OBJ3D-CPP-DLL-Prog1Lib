@@ -23,14 +23,8 @@ namespace Tools
 	public:
 		void operator ++ () const
 		{
-			if (!dataManager->KeyExists("ProgramStarted"))
-			{
-				dataManager->SaveData("ProgramStarted", 0);
-			}
-			int _programStarted = dataManager->GetData<int>("ProgramStarted");
-			dataManager->SaveData("ProgramStarted", ++_programStarted);
+			AddStatistic("ProgramStarted");
 		}
-
 		void operator -- () const
 		{
 			if (!dataManager->KeyExists("GameStarted"))
@@ -41,15 +35,27 @@ namespace Tools
 			dataManager->SaveData("GameStarted", ++_gameStarted);
 		}
 	public:
+		inline multimap<string, string> GetGamesData() const
+		{
+			return gamesData;
+		}
+	public:
 		Logger(const bool _saveGamesData = true , const string& _encryptionKey = "LoggerKey");
 		~Logger();
 
 	private:
-		void RetrieveGameData();
+		void RecoverGamesData();
 	public:
 		void AddGameData(const pair<string, string>& _difficultyAndData);
 		void AddGameData(const string& _difficulty, const string& _data);
-
-		double AverageScore(const string& _difficulty);
+		inline double AverageScore(const string& _difficulty);
+		void AddStatistic(const pair<string, string>& _keyAndStatistic) const;
+		void AddStatistic(const string& _key, const string& _statistic) const;
+		void AddStatistic(const string& _key) const; //Adder
+		template<typename Type = string>
+		inline Type RetrieveStatistic(const string& _key) const
+		{
+			return dataManager->GetData<Type>(_key);
+		}
 	};
 }

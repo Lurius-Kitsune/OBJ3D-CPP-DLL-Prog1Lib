@@ -81,7 +81,7 @@ namespace Tools
 			}
 			string _lineValue = _stream.ReadLine(GetKeyIndex(_key)[1]);
 			vector<string> _tokens = SplitString(_lineValue, ":");
-			unsigned int _contentParts = _tokens.size();
+			unsigned int _contentParts = static_cast<unsigned int>(_tokens.size());
 			string _totalContent = "";
 
 			for (unsigned int _i = 1; _i < _contentParts; _i++)
