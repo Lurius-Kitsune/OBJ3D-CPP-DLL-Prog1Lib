@@ -20,31 +20,30 @@ namespace Tools
 		multimap<string,string> gamesData;
 		SaveManager* dataManager;
 		FileStream* gamesDataFile;
+
 	public:
 		void operator ++ () const
 		{
-			AddStatistic("ProgramStarted");
+			AddStatistic("ProgramsStarted");
 		}
 		void operator -- () const
 		{
-			if (!dataManager->KeyExists("GameStarted"))
-			{
-				dataManager->SaveData("GameStarted", 0);
-			}
-			int _gameStarted = dataManager->GetData<int>("GameStarted");
-			dataManager->SaveData("GameStarted", ++_gameStarted);
+			AddStatistic("GamesStarted");
 		}
+
 	public:
 		inline multimap<string, string> GetGamesData() const
 		{
 			return gamesData;
 		}
+
 	public:
 		Logger(const bool _saveGamesData = true , const string& _encryptionKey = "LoggerKey");
 		~Logger();
 
 	private:
 		void RecoverGamesData();
+
 	public:
 		void AddGameData(const pair<string, string>& _difficultyAndData);
 		void AddGameData(const string& _difficulty, const string& _data);
@@ -57,5 +56,6 @@ namespace Tools
 		{
 			return dataManager->GetData<Type>(_key);
 		}
+
 	};
 }
