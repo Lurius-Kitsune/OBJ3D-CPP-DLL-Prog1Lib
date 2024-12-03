@@ -26,12 +26,12 @@ namespace Tools
     }
 
     /// <summary>
-    /// Renvoie une valeur random selon un type
-    /// </summary>
-    /// <typeparam name="Type"> Disponible avec les double, floats et longs double</typeparam>
-    /// <param name="_min">Minimum</param>
-    /// <param name="_max">Maximum</param>
-    /// <returns>Valeur random</returns>
+     /// Renvoie une valeur random selon un type
+     /// </summary>
+     /// <typeparam name="Type"> Disponible avec les double, floats et longs double</typeparam>
+     /// <param name="_min">Minimum</param>
+     /// <param name="_max">Maximum</param>
+     /// <returns>Valeur random</returns>
     template<typename Type>
     Type RandomValue(const Type& _min, const Type& _max)
     {
@@ -47,5 +47,12 @@ namespace Tools
     {
         int _randomIndex = RandomInt(0, _arraySize - 1);
         return _array[_randomIndex];
+    }
+
+    template<template<typename, typename> typename Collection, typename Type, typename Alloc = allocator<Type>()>
+    Type GetRandomObjectInCollection(Collection<Type, Alloc> _collection)
+    {
+        int _randomIndex = RandomInt(0, _collection.size() - 1);
+        return _collection[_randomIndex];
     }
 }
