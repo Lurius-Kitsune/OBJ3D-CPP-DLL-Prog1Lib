@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "DisplaySystem.h"
-#include <Windows.h>
-#include <conio.h>
-#include "Color.h"
-#include <string>
-#include <fstream>
+
 
 using namespace Tools::Console;
 
@@ -107,11 +103,12 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayCenterLineWithInput(const string& 
 	} while (true);
 }
 
-DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding, const int _exitKey)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type, const Coord& _padding, const int _exitKey)
 {
 	int _key = 0;
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
+	const u_int& _size = _textArray.size();
 	system("cls");
 	do
 	{
@@ -130,10 +127,11 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const string* _tex
 	cout << RESET;
 }
 
-DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLineWithInput(const vector<string>& _textArray ,int& _input, const RainbowType& _type, const Coord& _padding)
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
+	const u_int& _size = _textArray.size();
 	system("cls");
 	do
 	{
@@ -164,10 +162,11 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterLine(const string& _text
 	_previousCenter = _center;
 }
 
-DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type, const Coord& _padding)
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
+	const u_int& _size = _textArray.size();
 	for (u_int _index = 0; _index < _size; _index++)
 	{
 		if (CheckConsoleSize(_center, _previousCenter, _textArray[_index], _padding, _size)) continue;

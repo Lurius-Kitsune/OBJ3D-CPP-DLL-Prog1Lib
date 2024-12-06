@@ -44,6 +44,8 @@ int main()
 	//TestCharManip();
 	//TestOptimiseRandom();
 	//TestEncryptDecrypt();
+	string _test = "bob$bob$bob";
+	SplitString(_test , '$');
 
 	vector<int> _bob =
 	{
