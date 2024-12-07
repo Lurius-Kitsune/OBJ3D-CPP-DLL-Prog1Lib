@@ -49,6 +49,8 @@ namespace Tools
 		/*		CONSOLE			*/
 		//////////////////////////
 
+		DISPLAYSYSTEM_API COORD GetConsoleCursorPosition();
+
 		/// <summary>
 		/// Permet de définir la position du curseur dans la console
 		/// </summary>
@@ -111,7 +113,7 @@ namespace Tools
 		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
 		/// <param name="_exitKey">Touche à appuyer pour quitter (Echap par défaut)</param>
-		DISPLAYSYSTEM_API void DisplayCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 }, const int _exitKey = 27);
+		DISPLAYSYSTEM_API void DisplayCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 }, const bool _inputToLeave = false, const int _exitKey = 27);
 
 		/// <summary>
 		/// Permet d'afficher au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)

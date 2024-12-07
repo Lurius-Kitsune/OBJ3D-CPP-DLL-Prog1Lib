@@ -56,7 +56,7 @@ int main()
 		5,
 		6
 	};
-	UserInteraction::OpenMenu(_bob, "BOB");
+	UserInteraction::OpenMenu(_bob, "BOB", true);
 
 	TestSave();
 	return -1;

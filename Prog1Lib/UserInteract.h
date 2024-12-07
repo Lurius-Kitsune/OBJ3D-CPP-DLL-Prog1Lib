@@ -1,12 +1,16 @@
 #pragma once
-
 #ifdef MYTOOL_EXPORTS
 #define MYTOOL_API __declspec(dllexport)
 #else
 #define MYTOOL_API __declspec(dllimport)
 #endif
 
-#include "Macro.h"     
+#include "Macro.h"
+#include "Color.h"
+#include "DisplaySystem.h"
+
+using namespace Tools::Console;
+
 namespace Tools
 {
 	namespace UserInteraction
@@ -51,12 +55,12 @@ namespace Tools
 		/// <param name="_currentIndex">L'index de la selection actuelle</param>
 		/// <param name="_question">La question à posé</param>
 		template <typename Type>
-		void DisplayMenu(const vector<Type>& _options, const int _currentIndex, const string& _question)
+		void DisplayMenu(const vector<Type>& _options, const int _currentIndex, const string& _question, const bool _center)
 		{
+			vector<string> _menu;
 			const size_t& _size = _options.size();
-			DISPLAY(_question, _question.empty() ? false : true);
-			DISPLAY("==========ACTION==========", true);
-			for (u_int _i = 0; _i <= _size; _i++)
+			_menu.push_back("==========ACTION==========");
+			for (u_int _i = 0; _i < _size; _i++)
 			{
 				string _firstSymbol = "", _secondSymbol = "" RESET;
 				if (_i == _currentIndex)
@@ -64,48 +68,37 @@ namespace Tools
 					_firstSymbol = PURPLE "[";
 					_secondSymbol = PURPLE "]" RESET;
 				}
-				if (_i == _size)
-				{
-					DISPLAY(_firstSymbol << "Quitter" << _secondSymbol, true);
-					break;
-				}
 
-				DISPLAY(_firstSymbol <<  _options[_i] << _secondSymbol, true);
+				_menu.push_back(_firstSymbol + to_string(_options[_i]) + _secondSymbol);
 			}
-			DISPLAY("==========================", true);
-		}
+			_menu.push_back("==========================");
 
-		template <typename Type>
-		void DisplayMenu(const vector<Type*>& _options, const int _currentIndex, const string& _question)
-		{
-			const size_t& _size = _options.size();
-			DISPLAY(_question, _question.empty() ? false : true);
-			DISPLAY("==========ACTION==========", true);
-			for (u_int _i = 0; _i <= _size; _i++)
+
+			if (_center)
 			{
-				string _firstSymbol = "", _secondSymbol = "" RESET;
-				if (_i == _currentIndex)
-				{
-					_firstSymbol = PURPLE "[";
-					_secondSymbol = PURPLE "]" RESET;
-				}
-				if (_i == _size)
-				{
-					DISPLAY(_firstSymbol << "Quitter" << _secondSymbol, true);
-					break;
-				}
-
-				DISPLAY(_firstSymbol << *_options[_i] << _secondSymbol, true);
+				DisplayCenterMultiLine(_menu, RT_OFF, { 0, 0 });
 			}
-			DISPLAY("==========================", true);
+			else
+			{
+				for (const string& _line : _menu)
+				{
+					DISPLAY(_line, true);
+				}
+			}
 		}
 
 		template <typename Type>
-		int OpenMenu(const vector<Type>& _options, const string& _question)
+		void DisplayMenu(const vector<Type*>& _options, const int _currentIndex, const string& _question, const bool _center)
+		{
+			DisplayMenu(vector<Type>(_options.begin(), _options.end()), _currentIndex, _question, _center);
+		}
+
+		template <typename Type>
+		int OpenMenu(const vector<Type>& _options, const string& _question, const bool _center = false)
 		{
 			u_int _currentIndex = 0;
 			const size_t& _size = _options.size();
-			DisplayMenu(_options, _currentIndex, _question);
+			DisplayMenu(_options, _currentIndex, _question, _center);
 			do
 			{
 
@@ -114,6 +107,10 @@ namespace Tools
 					// Attendre une touche
 					u_int _input = 0;
 					_input = _getch();
+					if (_input == 224)
+					{
+						_input = _getch();
+					}
 
 					// Si la touche est entrée, alors _isChoiceMade = true
 					switch (_input)
@@ -133,7 +130,7 @@ namespace Tools
 						break;
 					}
 					CLEAR_SCREEN;
-					DisplayMenu(_options, _currentIndex, _question);
+					DisplayMenu(_options, _currentIndex, _question, _center);
 				}
 
 			} while (true);

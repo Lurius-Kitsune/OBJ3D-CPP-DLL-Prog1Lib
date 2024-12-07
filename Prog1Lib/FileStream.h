@@ -6,11 +6,15 @@
 #define MYTOOL_API __declspec(dllimport)
 #endif
 
-#include "Macro.h"
 #include <fstream> // fichier
 #include <sstream> 
 
 #pragma warning(disable : 4251)
+
+
+typedef unsigned int u_int;
+
+using namespace std;
 
 namespace Tools
 {

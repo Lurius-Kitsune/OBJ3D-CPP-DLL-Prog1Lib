@@ -18,6 +18,17 @@ string DisplayRainbowType(const string& _text, const RainbowType& _type)
 	return _text;
 }
 
+DISPLAYSYSTEM_API COORD Tools::Console::GetConsoleCursorPosition()
+{
+	HANDLE _hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO _cbsi;
+	if (GetConsoleScreenBufferInfo(_hConsoleOutput, &_cbsi))
+	{
+		return _cbsi.dwCursorPosition;
+	}
+	return { 0, 0 };
+}
+
 DISPLAYSYSTEM_API void Tools::Console::SetCursorPosition(const u_int& _x, const u_int& _y, const bool _cursor)
 {
 	static const HANDLE _hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -25,9 +36,9 @@ DISPLAYSYSTEM_API void Tools::Console::SetCursorPosition(const u_int& _x, const 
 	std::cout.flush();
 	_info.dwSize = 100;
 	_info.bVisible = _cursor;
-	COORD coord = { (SHORT)_x, (SHORT)_y };
+	COORD _coord = { (SHORT)_x, (SHORT)_y };
 	SetConsoleCursorInfo(_hOut, &_info);
-	SetConsoleCursorPosition(_hOut, coord);
+	SetConsoleCursorPosition(_hOut, _coord);
 }
 
 DISPLAYSYSTEM_API Coord Tools::Console::GetCenterConsole()
@@ -103,7 +114,7 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayCenterLineWithInput(const string& 
 	} while (true);
 }
 
-DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type, const Coord& _padding, const int _exitKey)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type, const Coord& _padding, const bool _inputToLeave, const int _exitKey)
 {
 	int _key = 0;
 	Coord _center = GetCenterConsole();
@@ -123,7 +134,7 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const vector<strin
 			printf(DisplayRainbowType(_textArray[_index], _type).c_str());
 			_previousCenter = _center;
 		}
-	} while (_key != _exitKey);
+	} while (_key != _exitKey && _inputToLeave);
 	cout << RESET;
 }
 

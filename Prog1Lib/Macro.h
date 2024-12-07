@@ -6,8 +6,9 @@
 #define MYTOOL_API __declspec(dllimport)
 #endif
 
-#include "Color.h"
+#include <iostream>
 
+using namespace std;
 namespace Tools
 {
 
