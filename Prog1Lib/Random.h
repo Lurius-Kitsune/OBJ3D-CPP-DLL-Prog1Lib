@@ -50,9 +50,17 @@ namespace Tools
     }
 
     template<template<typename, typename> typename Collection, typename Type, typename Alloc = allocator<Type>()>
-    Type GetRandomObjectInCollection(Collection<Type, Alloc> _collection, const u_int& _arraySize)
+    Type GetRandomObjectInCollection(Collection<Type, Alloc> _collection)
     {
-        int _randomIndex = RRandomInt(0, _collection.size() - 1);
-        return _collection[_randomIndex];
+        int _randomIndex = RandomInt(0, _collection.size() - 1);
+		typedef typename Collection<Type, Alloc>::iterator Iterator;
+		Iterator _it = _collection.begin();
+
+        for (int _i = 0; _i < _randomIndex; _i++)
+        {
+            _it++;
+        }
+
+        return *_it;
     }
 }
