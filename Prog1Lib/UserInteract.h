@@ -118,12 +118,12 @@ namespace Tools
 					case 13:
 						system("cls");
 						return _currentIndex;
-						// Si la touche est fleche du haut, alors _choiceIndex--
 					case 72:
+						// Si la touche est fleche du haut, alors _choiceIndex--
 						_currentIndex = (_currentIndex <= 0 ? (u_int)_size : _currentIndex - 1);
 						break;
-						// Si la touche est fleche du bas, alors _choiceIndex++
 					case 80:
+						// Si la touche est fleche du bas, alors _choiceIndex++
 						_currentIndex = (_currentIndex >= (u_int)_size ? 0 : _currentIndex + 1);
 						break;
 					default:

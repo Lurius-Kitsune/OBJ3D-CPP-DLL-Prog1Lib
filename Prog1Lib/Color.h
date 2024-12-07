@@ -177,8 +177,6 @@ namespace Tools
 
 
 			string GradientString(const string _text, const bool _textOnly = true);
-			
-		private:
 			Color ClampGradient(const int _index, const int _maxDisplayChar)const;
 		};
 
