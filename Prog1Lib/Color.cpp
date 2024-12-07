@@ -54,7 +54,7 @@ MYTOOL_API string Tools::Console::GetRandomColor()
 
 	const u_int _rainbowSize = size(_rainbowTable) - 1;
 
-	return _rainbowTable[RandomInt(_rainbowSize, 0)];
+	return _rainbowTable[RandomInt(0, _rainbowSize)];
 }
 
 string Tools::Console::Gradient::GradientString(const string _text, const bool _textOnly)
