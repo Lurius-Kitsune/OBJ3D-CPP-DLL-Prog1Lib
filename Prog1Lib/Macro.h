@@ -27,7 +27,7 @@ namespace Tools
 
     #pragma region Forward
         // Forward
-        MYTOOL_API void Config();
+        MYTOOL_API void Config(const bool _useLocal = false);
     #pragma endregion
 }
 
