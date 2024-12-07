@@ -40,6 +40,7 @@ MYTOOL_API vector<string> Tools::SplitString(const string& _phrase, const char _
 		_word += _phrase[_i];
 	}
 
+	if(!_word.empty()) _splitString.push_back(_word);
 	return _splitString;
 }
 

@@ -76,6 +76,31 @@ namespace Tools
 		}
 
 		template <typename Type>
+		void DisplayMenu(const vector<Type*>& _options, const int _currentIndex, const string& _question)
+		{
+			const size_t& _size = _options.size();
+			DISPLAY(_question, _question.empty() ? false : true);
+			DISPLAY("==========ACTION==========", true);
+			for (u_int _i = 0; _i <= _size; _i++)
+			{
+				string _firstSymbol = "", _secondSymbol = "" RESET;
+				if (_i == _currentIndex)
+				{
+					_firstSymbol = PURPLE "[";
+					_secondSymbol = PURPLE "]" RESET;
+				}
+				if (_i == _size)
+				{
+					DISPLAY(_firstSymbol << "Quitter" << _secondSymbol, true);
+					break;
+				}
+
+				DISPLAY(_firstSymbol << *_options[_i] << _secondSymbol, true);
+			}
+			DISPLAY("==========================", true);
+		}
+
+		template <typename Type>
 		int OpenMenu(const vector<Type>& _options, const string& _question)
 		{
 			u_int _currentIndex = 0;
@@ -94,14 +119,15 @@ namespace Tools
 					switch (_input)
 					{
 					case 13:
+						system("cls");
 						return _currentIndex;
 						// Si la touche est fleche du haut, alors _choiceIndex--
 					case 72:
-						_currentIndex = (_currentIndex <= 0 ? _size : _currentIndex - 1);
+						_currentIndex = (_currentIndex <= 0 ? (u_int)_size : _currentIndex - 1);
 						break;
 						// Si la touche est fleche du bas, alors _choiceIndex++
 					case 80:
-						_currentIndex = (_currentIndex >= _size ? 0 : _currentIndex + 1);
+						_currentIndex = (_currentIndex >= (u_int)_size ? 0 : _currentIndex + 1);
 						break;
 					default:
 						break;
