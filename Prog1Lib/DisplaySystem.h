@@ -1,4 +1,9 @@
 #pragma once
+#include <Windows.h>
+#include <conio.h>
+#include "Color.h"
+#include <string>
+#include <fstream>
 /*
 	=============CREDIT=============
 	- Author : Quentin OBJ3D
@@ -11,6 +16,7 @@
 #endif
 
 #include <iostream>
+#include <regex>
 
 using namespace std;
 typedef unsigned int u_int;
@@ -43,6 +49,8 @@ namespace Tools
 		//////////////////////////
 		/*		CONSOLE			*/
 		//////////////////////////
+
+		DISPLAYSYSTEM_API COORD GetConsoleCursorPosition();
 
 		/// <summary>
 		/// Permet de définir la position du curseur dans la console
@@ -106,7 +114,7 @@ namespace Tools
 		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
 		/// <param name="_exitKey">Touche à appuyer pour quitter (Echap par défaut)</param>
-		DISPLAYSYSTEM_API void DisplayCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 }, const int _exitKey = 27);
+		DISPLAYSYSTEM_API void DisplayCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 }, const int _exitKey = 27);
 
 		/// <summary>
 		/// Permet d'afficher au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)
@@ -118,7 +126,7 @@ namespace Tools
 		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
 		/// <param name="_input">Permet de renvoyer la valeur de la touche appuyé</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
-		DISPLAYSYSTEM_API void DisplayCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
+		DISPLAYSYSTEM_API void DisplayCenterMultiLineWithInput(const vector<string>& _textArray, int& _input, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
 
 		/// <summary>
 		/// Permet d'afficher une fois au centre de la console des lignes de textes avec la possibilité de décaler l'affichage du centre (padding)
@@ -129,7 +137,7 @@ namespace Tools
 		/// <param name="_type">Permet de choisir de mettre le texte en multicolore ou non</param>
 		/// <param name="_padding">Décale l'affichage du centre</param>
 		/// <returns></returns>
-		DISPLAYSYSTEM_API void DisplayOnceCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
+		DISPLAYSYSTEM_API void DisplayOnceCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
 
 		DISPLAYSYSTEM_API void DisplayAnimatedCenterMultiLine(const string& _filePath, const string& _filePrefix, const u_int& _quantity, const u_int& _size, const RainbowType& _type = RT_OFF, const Coord& _padding = { 0, 0 });
 

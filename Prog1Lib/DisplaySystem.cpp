@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "DisplaySystem.h"
-#include <Windows.h>
-#include <conio.h>
-#include "Color.h"
-#include <string>
-#include <fstream>
+
 
 using namespace Tools::Console;
 
@@ -22,6 +18,17 @@ string DisplayRainbowType(const string& _text, const RainbowType& _type)
 	return _text;
 }
 
+DISPLAYSYSTEM_API COORD Tools::Console::GetConsoleCursorPosition()
+{
+	HANDLE _hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_SCREEN_BUFFER_INFO _cbsi;
+	if (GetConsoleScreenBufferInfo(_hConsoleOutput, &_cbsi))
+	{
+		return _cbsi.dwCursorPosition;
+	}
+	return { 0, 0 };
+}
+
 DISPLAYSYSTEM_API void Tools::Console::SetCursorPosition(const u_int& _x, const u_int& _y, const bool _cursor)
 {
 	static const HANDLE _hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -29,9 +36,9 @@ DISPLAYSYSTEM_API void Tools::Console::SetCursorPosition(const u_int& _x, const 
 	std::cout.flush();
 	_info.dwSize = 100;
 	_info.bVisible = _cursor;
-	COORD coord = { (SHORT)_x, (SHORT)_y };
+	COORD _coord = { (SHORT)_x, (SHORT)_y };
 	SetConsoleCursorInfo(_hOut, &_info);
-	SetConsoleCursorPosition(_hOut, coord);
+	SetConsoleCursorPosition(_hOut, _coord);
 }
 
 DISPLAYSYSTEM_API Coord Tools::Console::GetCenterConsole()
@@ -107,11 +114,12 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayCenterLineWithInput(const string& 
 	} while (true);
 }
 
-DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding, const int _exitKey)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type, const Coord& _padding, const int _exitKey)
 {
 	int _key = 0;
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
+	const u_int& _size = _textArray.size();
 	system("cls");
 	do
 	{
@@ -121,19 +129,18 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLine(const string* _tex
 			{
 				_key = _getch();
 			}
-			if (CheckConsoleSize(_center, _previousCenter, _textArray[_index], _padding, _size)) continue;
-			SetCursorPosition(((_center.x + _padding.x) - u_int(_textArray[_index].size())) / 2, (_center.y + (2 * ((_padding.y - _size) / 2 + _index))) / 2);
-			printf(DisplayRainbowType(_textArray[_index], _type).c_str());
-			_previousCenter = _center;
+
+			DisplayOnceCenterMultiLine(_textArray, _type, _padding);
 		}
 	} while (_key != _exitKey);
 	cout << RESET;
 }
 
-DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLineWithInput(const string* _textArray, const u_int& _size, int& _input, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLineWithInput(const vector<string>& _textArray ,int& _input, const RainbowType& _type, const Coord& _padding)
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
+	const u_int& _size = _textArray.size();
 	system("cls");
 	do
 	{
@@ -145,10 +152,7 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayCenterMultiLineWithInput(const str
 				cout << RESET;
 				return;
 			}
-			if (CheckConsoleSize(_center, _previousCenter, _textArray[_index], _padding, _size)) continue;
-			SetCursorPosition(((_center.x + _padding.x) - u_int(_textArray[_index].size())) / 2, (_center.y + (2 * ((_padding.y - _size) / 2 + _index))) / 2);
-			printf(DisplayRainbowType(_textArray[_index], _type).c_str());
-			_previousCenter = _center;
+			DisplayOnceCenterMultiLine(_textArray, _type, _padding);
 		}
 	} while (true);
 }
@@ -157,21 +161,28 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterLine(const string& _text
 {
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
+	const regex& _regex = regex("x1b\[(38|48);2;[0-9]{1,3};[0-9]{1,3};[0-9]{1,3}m|\x1b\[[0-9;]*[mKHVfF]"); // Regex pour supprimer les codes ANSI
+	const string& _contentRegexed = regex_replace(_text, _regex, "");
 	if (CheckConsoleSize(_center, _previousCenter, _text, _padding)) return;
-	SetCursorPosition(((_center.x + _padding.x) - u_int(_text.size())) / 2, (_center.y + _padding.y) / 2);
+	SetCursorPosition(((_center.x + _padding.x) - u_int(_contentRegexed.size())) / 2, (_center.y + _padding.y) / 2);
 	printf(DisplayRainbowType(_text, _type).c_str());
 	cout << RESET;
 	_previousCenter = _center;
 }
 
-DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterMultiLine(const string* _textArray, const u_int& _size, const RainbowType& _type, const Coord& _padding)
+DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterMultiLine(const vector<string>& _textArray, const RainbowType& _type, const Coord& _padding)
 {
+	
 	Coord _center = GetCenterConsole();
 	Coord _previousCenter = _center;
+	const u_int& _size = _textArray.size();
 	for (u_int _index = 0; _index < _size; _index++)
 	{
+		const regex& _regex = regex("x1b\[(38|48);2;[0-9]{1,3};[0-9]{1,3};[0-9]{1,3}m|\x1b\[[0-9;]*[mKHVfF]"); // Regex pour supprimer les codes ANSI
+		const string& _contentRegexed = regex_replace(_textArray[_index], _regex, "");
+
 		if (CheckConsoleSize(_center, _previousCenter, _textArray[_index], _padding, _size)) continue;
-		SetCursorPosition(((_center.x + _padding.x) - u_int(_textArray[_index].size())) / 2, (_center.y + (2 * ((_padding.y - _size) / 2 + _index))) / 2);
+		SetCursorPosition(((_center.x + _padding.x) - u_int(_contentRegexed.size())) / 2, (_center.y + (2 * ((_padding.y - _size) / 2 + _index))) / 2);
 		printf(DisplayRainbowType(_textArray[_index], _type).c_str());
 		_previousCenter = _center;
 	}
