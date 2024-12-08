@@ -181,7 +181,7 @@ DISPLAYSYSTEM_API void Tools::Console::DisplayOnceCenterMultiLine(const vector<s
 		const regex& _regex = regex("x1b\[(38|48);2;[0-9]{1,3};[0-9]{1,3};[0-9]{1,3}m|\x1b\[[0-9;]*[mKHVfF]"); // Regex pour supprimer les codes ANSI
 		const string& _contentRegexed = regex_replace(_textArray[_index], _regex, "");
 
-		if (CheckConsoleSize(_center, _previousCenter, _textArray[_index], _padding, _size)) continue;
+		if (CheckConsoleSize(_center, _previousCenter, _contentRegexed, _padding, _size)) continue;
 		SetCursorPosition(((_center.x + _padding.x) - u_int(_contentRegexed.size())) / 2, (_center.y + (2 * ((_padding.y - _size) / 2 + _index))) / 2);
 		printf(DisplayRainbowType(_textArray[_index], _type).c_str());
 		_previousCenter = _center;

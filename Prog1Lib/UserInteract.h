@@ -68,8 +68,9 @@ namespace Tools
 					_firstSymbol = PURPLE "[";
 					_secondSymbol = PURPLE "]" RESET;
 				}
-
-				_menu.push_back(_firstSymbol + to_string(_options[_i]) + _secondSymbol);
+				stringstream _ss;
+				_ss << _options[_i];
+				_menu.push_back(_firstSymbol + _ss.str() +_secondSymbol);
 			}
 			_menu.push_back("==========================");
 
