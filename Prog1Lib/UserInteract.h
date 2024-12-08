@@ -76,7 +76,7 @@ namespace Tools
 
 			if (_center)
 			{
-				DisplayCenterMultiLine(_menu, RT_OFF, { 0, 0 });
+				DisplayOnceCenterMultiLine(_menu, RT_OFF, { 0, 0 });
 			}
 			else
 			{
